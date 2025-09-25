@@ -52,7 +52,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"title\": \"Mi Primer Tablero\",\n    \"description\": \"Un tablero para organizar mis tareas\",\n    \"is_public\": false\n}"
+                            "raw": "{\n    \"name\": \"Mi Primer Tablero\",\n    \"description\": \"Un tablero para organizar mis tareas\",\n    \"is_public\": false\n}"
                         },
                         "url": {
                             "raw": "{{base_url}}/api/v1/boards",

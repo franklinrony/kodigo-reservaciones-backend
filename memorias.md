@@ -308,3 +308,108 @@ Todas las rutas están protegidas y requieren autenticación mediante JWT.
 - Esto permite mantener el código de cada versión aislado y facilita la evolución de la API.
   
 El siguiente paso es continuar con la siguiente tarea de Taskmaster.
+## Tarea: Solucionar problema de rutas en la API Kanban
+
+### Problema identificado
+Al probar los endpoints de la API para el sistema Kanban, descubrimos que las rutas definidas en `api_v1.php` no estaban siendo registradas correctamente. Aunque el controlador de autenticación funcionaba, las rutas para boards, lists, cards, etc. no aparecían al ejecutar `php artisan route:list` y devolvían un error 404 al intentar acceder.
+
+### Diagnóstico
+Después de analizar el problema, encontramos varias inconsistencias:
+
+1. **Ubicación de rutas incorrecta**: Las rutas de Kanban estaban definidas en `api_v1.php`, pero el prefijo URL `/api/v1` en el `RouteServiceProvider` estaba causando confusión.
+
+2. **Referencias incorrectas a controladores**: La ruta en la definición (`App\Http\Controllers\API\BoardController::class`) no coincidía con la ubicación real de los controladores que estaban directamente en `API` sin la subcarpeta `V1`.
+
+3. **Inconsistencia entre modelo y controlador**: En la migración, el campo para el nombre del tablero se definió como `name`, pero en el controlador se estaba validando y usando como `title`.
+
+4. **Colección de Postman desactualizada**: Los JSON de solicitudes en la colección de Postman usaban el campo `title` en lugar de `name` para los tableros.
+
+### Solución aplicada
+
+1. **Corregir las referencias a controladores**: Actualizamos las rutas en `api_v1.php` para usar la sintaxis correcta con la ruta completa y escape de namespace:
+   ```php
+   Route::get('/', [\App\Http\Controllers\API\BoardController::class, 'index']);
+   ```
+   en lugar de:
+   ```php
+   Route::get('/', [App\Http\Controllers\API\BoardController::class, 'index']);
+   ```
+
+2. **Mover las rutas al archivo principal de API**: Trasladamos todas las rutas de Kanban al archivo `api.php` dentro del grupo con prefijo `v1`, manteniendo la estructura y organización:
+   ```php
+   Route::prefix('v1')->group(function () {
+       // Rutas de autenticación...
+       
+       // Rutas protegidas por JWT
+       Route::middleware('auth:api')->group(function () {
+           // Rutas de Kanban...
+       });
+   });
+   ```
+
+3. **Corregir la inconsistencia de campos**: Actualizamos el `BoardController` para que use el campo `name` en lugar de `title` en los métodos de validación y creación:
+   ```php
+   $request->validate([
+       'name' => 'required|string|max:255',
+       // ...
+   ]);
+   
+   $board = Board::create([
+       'name' => $request->name,
+       // ...
+   ]);
+   ```
+
+4. **Actualizar la colección de Postman**: Cambiamos las solicitudes de Postman para usar `name` en lugar de `title` en el cuerpo JSON:
+   ```json
+   {
+       "name": "Mi Primer Tablero",
+       "description": "Un tablero para organizar mis tareas",
+       "is_public": false
+   }
+   ```
+
+### Verificación
+Después de aplicar estas soluciones:
+1. Las rutas aparecen correctamente al ejecutar `php artisan route:list`
+2. Los endpoints de la API responden con los códigos de estado esperados:
+   - 200 OK para solicitudes GET exitosas
+   - 201 Created para POST exitosos
+   - 401 Unauthorized para solicitudes sin autenticación
+
+### Lecciones aprendidas
+- **Consistencia en namespaces**: Asegurar que la estructura de directorios coincida con los namespaces de los controladores
+- **Rutas en Laravel**: En proyectos con versionamiento de API, es crucial entender cómo Laravel registra y resuelve las rutas según su ubicación y prefijos
+- **Verificación de campos**: Mantener consistencia entre migraciones, modelos y controladores para evitar errores de validación
+- **Depuración efectiva**: Utilizar `php artisan route:list` para verificar que todas las rutas estén registradas correctamente
+
+### Comandos útiles para depurar problemas de rutas
+```bash
+# Listar todas las rutas registradas
+php artisan route:list
+
+# Limpiar caché de rutas
+php artisan route:clear
+
+# Limpiar caché general
+php artisan optimize:clear
+
+# Verificar si una ruta específica está registrada
+php artisan route:list --name=nombre.ruta
+# O filtrar por URI
+php artisan route:list --path=api/v1/boards
+```
+
+### Prueba de endpoints con Postman CLI
+```bash
+# Ejecutar solicitud de login para obtener token
+postman collection run postman_collection.json -i Login --env-var "email=test@example.com" --env-var "password=password" --reporters json --reporter-json-export token_response.json --silent
+
+# Ejecutar solicitud con token de autenticación
+postman collection run postman_collection.json -i "Create Board" --env-var "base_url=http://localhost:8000" --env-var "token=AQUÍ_VA_EL_TOKEN" --reporters cli
+
+# Probar endpoint sin autenticación
+postman collection run auth_test_collection.json -i "Get Boards No Auth" --reporters cli
+```
+
+Este enfoque sistemático para diagnosticar y resolver problemas de rutas API en Laravel puede aplicarse a problemas similares en el futuro.

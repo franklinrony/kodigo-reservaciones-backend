@@ -43,13 +43,13 @@ class BoardController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'is_public' => 'boolean',
         ]);
 
         $board = Board::create([
-            'title' => $request->title,
+            'name' => $request->name,
             'description' => $request->description ?? null,
             'is_public' => $request->is_public ?? false,
             'user_id' => Auth::id(),
