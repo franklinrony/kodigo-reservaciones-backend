@@ -137,6 +137,37 @@ El sistema de autenticación ahora funciona correctamente y genera tokens JWT v�
 
 La estructura de datos para el sistema Kanban está completamente implementada, proporcionando una base sólida para desarrollar las funcionalidades de gestión de tableros, listas y tarjetas. La siguiente fase consistirá en desarrollar los controladores y endpoints de API para manipular estas entidades.
 
+## Uso de Postman para probar la API
+
+Para facilitar las pruebas de la API, se ha creado una colección de Postman con todos los endpoints disponibles. Para utilizarla:
+
+1. **Importar la colección y el entorno**:
+   - Abrir Postman
+   - Importar el archivo `postman_collection.json` (Archivo > Importar)
+   - Importar el archivo `postman_environment.json`
+   - Seleccionar el entorno "Kanban API Environment" en el selector de entornos
+
+2. **Configurar el entorno**:
+   - El entorno ya tiene configurada la variable `base_url` como `http://localhost:8000`
+   - La variable `token` se llenará automáticamente al hacer login
+
+3. **Flujo de prueba recomendado**:
+   - Ejecutar el endpoint "Auth > Register" para crear un nuevo usuario (si es necesario)
+   - Ejecutar el endpoint "Auth > Login" para obtener un token JWT
+   - El token se guarda automáticamente en la variable de entorno `token`
+   - Usar los demás endpoints que requieren autenticación
+
+4. **Ejecutar la colección completa**:
+   - Se puede ejecutar la colección completa usando el Runner de Postman
+   - Ir a la pestaña "Runner" y seleccionar la colección "Kodigo Kanban API"
+   - Configurar el orden de ejecución según sea necesario
+
+5. **Verificar respuestas**:
+   - Todas las respuestas exitosas deben tener un código de estado 2xx
+   - Las respuestas de error tendrán códigos 4xx o 5xx con mensajes descriptivos
+
+Esta colección se irá actualizando a medida que se implementen nuevos endpoints para el sistema Kanban.
+
 # Memorias de Desarrollo
 
 ## Tarea: Inicializar proyecto Laravel 12 y configurar base de datos
