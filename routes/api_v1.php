@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\AdminController;
-use App\Http\Controllers\API\BoardController;
-use App\Http\Controllers\API\BoardListController;
-use App\Http\Controllers\API\CardController;
-use App\Http\Controllers\API\LabelController;
-use App\Http\Controllers\API\CommentController;
+use App\Http\Controllers\API\V1\BoardController;
+use App\Http\Controllers\API\V1\BoardListController;
+use App\Http\Controllers\API\V1\CardController;
+use App\Http\Controllers\API\V1\LabelController;
+use App\Http\Controllers\API\V1\CommentController;
 
 // Rutas públicas de autenticación
 Route::prefix('auth')->group(function () {
