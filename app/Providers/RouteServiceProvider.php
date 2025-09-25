@@ -29,17 +29,18 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            // API v1 routes first to ensure proper routing priority
-            Route::middleware('api')
-                ->prefix('api/v1')
-                ->name('api.v1.')
-                ->group(base_path('routes/api_v1.php'));
-                
-            // Main API routes (used as fallback for future versions)
+            // All API routes are defined in api.php, including versioned routes
             Route::middleware('api')
                 ->prefix('api')
                 ->name('api.')
                 ->group(base_path('routes/api.php'));
+                
+            // For documentation purposes only, this file is empty
+            // and only contains documentation about the versioning structure
+            // Route::middleware('api')
+            //     ->prefix('api/v1')
+            //     ->name('api.v1.')
+            //     ->group(base_path('routes/api_v1.php'));
 
             // Web routes
             Route::middleware('web')
