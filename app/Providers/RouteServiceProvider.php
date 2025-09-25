@@ -28,22 +28,6 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
-        $this->routes(function () {
-            // API v1 routes - all v1 endpoints are defined here
-            Route::middleware('api')
-                ->prefix('api/v1')
-                ->name('api.v1.')
-                ->group(base_path('routes/api_v1.php'));
-            
-            // Main API routes - non-versioned endpoints and redirects
-            Route::middleware('api')
-                ->prefix('api')
-                ->name('api.')
-                ->group(base_path('routes/api.php'));
-
-            // Web routes
-            Route::middleware('web')
-                ->group(base_path('routes/web.php'));
-        });
+        // Route registration is now handled in bootstrap/app.php per Laravel 12 conventions
     }
 }
