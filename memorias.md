@@ -166,7 +166,126 @@ Para facilitar las pruebas de la API, se ha creado una colección de Postman con
    - Todas las respuestas exitosas deben tener un código de estado 2xx
    - Las respuestas de error tendrán códigos 4xx o 5xx con mensajes descriptivos
 
+6. **Usar la CLI de Postman**:
+   - También se puede ejecutar la colección desde la línea de comandos usando Postman CLI
+   - Asegúrate de tener instalado el CLI de Postman (`postman --version` para verificar)
+   - Ejecuta el comando: `postman collection run postman_collection.json --environment postman_environment.json`
+   - Para autenticación automatizada, añade la variable `--env-var "email=test@example.com" --env-var "password=password"`
+   - Para generar reportes añade: `--reporters cli,json,html --reporter-json-export ./reports/report.json`
+
 Esta colección se irá actualizando a medida que se implementen nuevos endpoints para el sistema Kanban.
+
+## Controladores Implementados
+
+Se han implementado los siguientes controladores para el sistema Kanban:
+
+1. **BoardController**: Gestiona los tableros Kanban
+   - `index`: Lista todos los tableros del usuario (propios y colaboraciones)
+   - `store`: Crea un nuevo tablero
+   - `show`: Muestra un tablero específico con sus listas, tarjetas, etiquetas y comentarios
+   - `update`: Actualiza un tablero existente
+   - `destroy`: Elimina un tablero
+   - `addCollaborator`: Añade un colaborador al tablero
+   - `removeCollaborator`: Elimina un colaborador del tablero
+
+2. **BoardListController**: Gestiona las listas dentro de un tablero
+   - `index`: Lista todas las listas de un tablero específico
+   - `store`: Crea una nueva lista en un tablero
+   - `show`: Muestra una lista específica
+   - `update`: Actualiza una lista existente (incluyendo reordenación)
+   - `destroy`: Elimina una lista
+
+3. **CardController**: Gestiona las tarjetas dentro de las listas
+   - `index`: Lista todas las tarjetas de una lista específica
+   - `store`: Crea una nueva tarjeta en una lista
+   - `show`: Muestra una tarjeta específica con sus etiquetas y comentarios
+   - `update`: Actualiza una tarjeta existente (incluyendo movimiento entre listas)
+   - `destroy`: Elimina una tarjeta
+
+4. **LabelController**: Gestiona las etiquetas asociadas a un tablero
+   - `index`: Lista todas las etiquetas de un tablero específico
+   - `store`: Crea una nueva etiqueta en un tablero
+   - `show`: Muestra una etiqueta específica
+   - `update`: Actualiza una etiqueta existente
+   - `destroy`: Elimina una etiqueta
+
+5. **CommentController**: Gestiona los comentarios en las tarjetas
+   - `index`: Lista todos los comentarios de una tarjeta específica
+   - `store`: Crea un nuevo comentario en una tarjeta
+   - `show`: Muestra un comentario específico
+   - `update`: Actualiza un comentario existente (solo el autor)
+   - `destroy`: Elimina un comentario (autor o propietario del tablero)
+
+## Implementación actual del sistema Kanban
+
+1. **Modelos implementados**:
+   - User: Modelo base de usuarios con relaciones a tableros y tarjetas
+   - Board: Tableros Kanban con relaciones a listas, etiquetas y usuarios colaboradores
+   - BoardList: Listas dentro de un tablero con relación a sus tarjetas
+   - Card: Tarjetas dentro de las listas con relaciones a etiquetas y comentarios
+   - Label: Etiquetas para categorizar las tarjetas
+   - Comment: Comentarios en las tarjetas
+
+2. **Migraciones**:
+   - Todas las tablas del sistema Kanban han sido creadas con sus relaciones
+   - Las restricciones de clave foránea incluyen eliminación en cascada para mantener la integridad de datos
+
+3. **Controladores**:
+   - Se han implementado controladores completos para todas las entidades
+   - Cada controlador verifica la autenticación y autorización del usuario
+   - Los controladores manejan relaciones complejas como colaboración en tableros
+   - Se implementa el reordenamiento automático de listas y tarjetas
+
+4. **Tests**:
+   - Se ha actualizado el script test_api.bat para probar los endpoints del sistema Kanban
+   - La colección de Postman (postman_collection.json) incluye ejemplos para todos los endpoints
+
+## Rutas API
+
+Se han configurado las siguientes rutas API para acceder a los controladores:
+
+```
+// Tableros
+GET    /api/v1/boards                        - Listar tableros del usuario
+POST   /api/v1/boards                        - Crear nuevo tablero
+GET    /api/v1/boards/{boardId}              - Ver un tablero específico
+PUT    /api/v1/boards/{boardId}              - Actualizar un tablero
+DELETE /api/v1/boards/{boardId}              - Eliminar un tablero
+
+// Colaboradores
+POST   /api/v1/boards/{boardId}/collaborators       - Añadir colaborador
+DELETE /api/v1/boards/{boardId}/collaborators/{userId} - Eliminar colaborador
+
+// Listas
+GET    /api/v1/boards/{boardId}/lists        - Listar listas de un tablero
+POST   /api/v1/boards/{boardId}/lists        - Crear nueva lista
+GET    /api/v1/boards/{boardId}/lists/{id}   - Ver una lista específica
+PUT    /api/v1/boards/{boardId}/lists/{id}   - Actualizar una lista
+DELETE /api/v1/boards/{boardId}/lists/{id}   - Eliminar una lista
+
+// Tarjetas
+GET    /api/v1/lists/{listId}/cards          - Listar tarjetas de una lista
+POST   /api/v1/lists/{listId}/cards          - Crear nueva tarjeta
+GET    /api/v1/cards/{id}                    - Ver una tarjeta específica
+PUT    /api/v1/cards/{id}                    - Actualizar una tarjeta
+DELETE /api/v1/cards/{id}                    - Eliminar una tarjeta
+
+// Etiquetas
+GET    /api/v1/boards/{boardId}/labels       - Listar etiquetas de un tablero
+POST   /api/v1/boards/{boardId}/labels       - Crear nueva etiqueta
+GET    /api/v1/labels/{id}                   - Ver una etiqueta específica
+PUT    /api/v1/labels/{id}                   - Actualizar una etiqueta
+DELETE /api/v1/labels/{id}                   - Eliminar una etiqueta
+
+// Comentarios
+GET    /api/v1/cards/{cardId}/comments       - Listar comentarios de una tarjeta
+POST   /api/v1/cards/{cardId}/comments       - Crear nuevo comentario
+GET    /api/v1/comments/{id}                 - Ver un comentario específico
+PUT    /api/v1/comments/{id}                 - Actualizar un comentario
+DELETE /api/v1/comments/{id}                 - Eliminar un comentario
+```
+
+Todas las rutas están protegidas y requieren autenticación mediante JWT.
 
 # Memorias de Desarrollo
 
