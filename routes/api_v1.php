@@ -1,20 +1,93 @@
 <?php
 
-/**
- * Este archivo sirve como punto de entrada para la versión 1 de la API.
- * Se define aquí el código específico de la versión 1 y se incluyen los
- * endpoints definidos en api.php bajo el prefijo v1.
- * 
- * Para mantener la estructura por versiones, no modificamos este archivo directamente
- * sino que vamos al archivo api.php y modificamos las rutas dentro del grupo 'v1'.
- * 
- * Esto nos permite mantener un archivo por versión de API, facilitando el mantenimiento
- * y evolución de la API con el tiempo.
- */
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\V1\AuthController;
+use App\Http\Controllers\API\V1\AdminController;
+use App\Http\Controllers\API\BoardController;
+use App\Http\Controllers\API\BoardListController;
+use App\Http\Controllers\API\CardController;
+use App\Http\Controllers\API\LabelController;
+use App\Http\Controllers\API\CommentController;
 
-// Indicador que este archivo está siendo cargado correctamente
-if (!defined('KODIGO_API_V1_LOADED')) {
-    define('KODIGO_API_V1_LOADED', true);
-}
+// Rutas públicas de autenticación
+Route::prefix('auth')->group(function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    
+    // Rutas que requieren autenticación
+    Route::middleware('auth:api')->group(function () {
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('refresh', [AuthController::class, 'refresh']);
+        Route::get('me', [AuthController::class, 'me']);
+    });
+});
 
-// Las rutas específicas de la versión 1 están definidas en api.php dentro del grupo prefix('v1')
+// Rutas protegidas por JWT
+Route::middleware('auth:api')->group(function () {
+    // Rutas accesibles por cualquier usuario autenticado
+    Route::prefix('user')->group(function () {
+        Route::get('profile', [AuthController::class, 'me']);
+    });
+    
+    // Rutas protegidas para administradores
+    Route::middleware('auth.role:admin')->group(function () {
+        Route::prefix('admin')->group(function () {
+            Route::get('dashboard', [AdminController::class, 'dashboard']);
+        });
+    });
+    
+    // Rutas para el sistema Kanban
+    Route::prefix('boards')->group(function () {
+        Route::get('/', [BoardController::class, 'index']);
+        Route::post('/', [BoardController::class, 'store']);
+        Route::get('/{boardId}', [BoardController::class, 'show']);
+        Route::put('/{boardId}', [BoardController::class, 'update']);
+        Route::delete('/{boardId}', [BoardController::class, 'destroy']);
+        
+        // Colaboradores
+        Route::post('/{boardId}/collaborators', [BoardController::class, 'addCollaborator']);
+        Route::delete('/{boardId}/collaborators/{userId}', [BoardController::class, 'removeCollaborator']);
+        
+        // Listas
+        Route::get('/{boardId}/lists', [BoardListController::class, 'index']);
+        Route::post('/{boardId}/lists', [BoardListController::class, 'store']);
+        Route::get('/{boardId}/lists/{id}', [BoardListController::class, 'show']);
+        Route::put('/{boardId}/lists/{id}', [BoardListController::class, 'update']);
+        Route::delete('/{boardId}/lists/{id}', [BoardListController::class, 'destroy']);
+        
+        // Etiquetas
+        Route::get('/{boardId}/labels', [LabelController::class, 'index']);
+        Route::post('/{boardId}/labels', [LabelController::class, 'store']);
+    });
+    
+    // Rutas para tarjetas
+    Route::prefix('lists')->group(function () {
+        Route::get('/{listId}/cards', [CardController::class, 'index']);
+        Route::post('/{listId}/cards', [CardController::class, 'store']);
+    });
+    
+    // Rutas para manipulación de tarjetas individuales
+    Route::prefix('cards')->group(function () {
+        Route::get('/{id}', [CardController::class, 'show']);
+        Route::put('/{id}', [CardController::class, 'update']);
+        Route::delete('/{id}', [CardController::class, 'destroy']);
+        
+        // Comentarios
+        Route::get('/{cardId}/comments', [CommentController::class, 'index']);
+        Route::post('/{cardId}/comments', [CommentController::class, 'store']);
+    });
+    
+    // Rutas para etiquetas
+    Route::prefix('labels')->group(function () {
+        Route::get('/{id}', [LabelController::class, 'show']);
+        Route::put('/{id}', [LabelController::class, 'update']);
+        Route::delete('/{id}', [LabelController::class, 'destroy']);
+    });
+    
+    // Rutas para comentarios
+    Route::prefix('comments')->group(function () {
+        Route::get('/{id}', [CommentController::class, 'show']);
+        Route::put('/{id}', [CommentController::class, 'update']);
+        Route::delete('/{id}', [CommentController::class, 'destroy']);
+    });
+});
