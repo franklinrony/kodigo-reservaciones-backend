@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Board;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -57,13 +59,16 @@ class AuthController extends Controller
 
         // Generar token JWT
         $token = JWTAuth::fromUser($user);
+        
+        // Obtener el TTL (tiempo de vida) del token
+        $ttl = config('jwt.ttl', 60);
 
         return response()->json([
             'message' => 'Usuario registrado exitosamente',
             'user' => $user,
             'token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => $ttl * 60
         ], 201);
     }
 
@@ -81,8 +86,9 @@ class AuthController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-
-        if (! $token = auth()->attempt($credentials)) {
+        
+        // Usar JWTAuth directamente en lugar de auth()
+        if (! $token = JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'No autorizado, credenciales incorrectas'], 401);
         }
 
@@ -96,13 +102,27 @@ class AuthController extends Controller
      */
     public function me()
     {
-        $user = auth()->user();
-        $user->load('roles:id,name');
+        // Obtener usuario autenticado
+        $user = Auth::user();
+        
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no autenticado'], 401);
+        }
+        
+        // Obtener roles manualmente
+        $roles = DB::table('roles')
+                 ->join('role_user', 'roles.id', '=', 'role_user.role_id')
+                 ->where('role_user.user_id', $user->id)
+                 ->select('roles.id', 'roles.name')
+                 ->get();
+        
+        // Verificar si es admin manualmente
+        $isAdmin = $roles->where('name', 'admin')->count() > 0;
         
         return response()->json([
             'user' => $user,
-            'roles' => $user->roles->pluck('name'),
-            'isAdmin' => $user->hasRole('admin')
+            'roles' => $roles->pluck('name'),
+            'isAdmin' => $isAdmin
         ]);
     }
 
@@ -113,7 +133,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
+        JWTAuth::invalidate(JWTAuth::getToken());
 
         return response()->json(['message' => 'Sesión cerrada exitosamente']);
     }
@@ -125,7 +145,8 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        $newToken = JWTAuth::refresh();
+        return $this->respondWithToken($newToken);
     }
 
     /**
@@ -137,10 +158,13 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+        // Obtener el TTL (tiempo de vida) del token desde la configuración
+        $ttl = config('jwt.ttl', 60);
+        
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => $ttl * 60
         ]);
     }
 }

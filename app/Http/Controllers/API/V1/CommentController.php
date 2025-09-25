@@ -7,6 +7,7 @@ use App\Models\Card;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
@@ -143,7 +144,12 @@ class CommentController extends Controller
         $user = Auth::user();
         
         // Los administradores o el autor pueden eliminar un comentario
-        $isAdmin = $user->hasRole('admin');
+        // Verificar si es admin mediante consulta directa
+        $isAdmin = DB::table('roles')
+                  ->join('role_user', 'roles.id', '=', 'role_user.role_id')
+                  ->where('role_user.user_id', $user->id)
+                  ->where('roles.name', 'admin')
+                  ->exists();
         
         if ($isAdmin) {
             $comment = $this->findAccessibleComment($id, $user);

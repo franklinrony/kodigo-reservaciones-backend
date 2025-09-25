@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Board;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BoardController extends Controller
 {
@@ -19,17 +20,23 @@ class BoardController extends Controller
     {
         $user = Auth::user();
         
-        // Un usuario puede ver sus propios tableros y aquellos en los que colabora
-        $boards = $user->boards()
+        // Un usuario puede ver sus propios tableros
+        $ownedBoards = Board::where('user_id', $user->id)
             ->with('user:id,name,email')
             ->withCount('lists', 'collaborators')
-            ->get()
-            ->merge(
-                $user->collaboratingBoards()
-                    ->with('user:id,name,email')
-                    ->withCount('lists', 'collaborators')
-                    ->get()
-            );
+            ->get();
+            
+        // Y aquellos en los que colabora (consulta manual)
+        $collaboratingBoardIds = DB::table('board_user')
+            ->where('user_id', $user->id)
+            ->pluck('board_id');
+            
+        $collaboratingBoards = Board::whereIn('id', $collaboratingBoardIds)
+            ->with('user:id,name,email')
+            ->withCount('lists', 'collaborators')
+            ->get();
+            
+        $boards = $ownedBoards->merge($collaboratingBoards);
         
         return response()->json([
             'message' => 'Tableros recuperados con éxito',
