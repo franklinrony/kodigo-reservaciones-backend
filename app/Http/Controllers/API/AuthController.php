@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\V1;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -49,15 +49,22 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Assign user role by default
+        // Asignar rol 'user' por defecto
         $userRole = Role::where('name', 'user')->first();
         if ($userRole) {
             $user->roles()->attach($userRole);
         }
 
-        $token = Auth::guard('api')->login($user);
+        // Generar token JWT
+        $token = JWTAuth::fromUser($user);
 
-        return $this->respondWithToken($token);
+        return response()->json([
+            'message' => 'Usuario registrado exitosamente',
+            'user' => $user,
+            'token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ], 201);
     }
 
     /**
@@ -68,19 +75,15 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
+        $request->validate([
+            'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
         $credentials = $request->only('email', 'password');
 
-        if (!$token = Auth::guard('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        if (! $token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'No autorizado, credenciales incorrectas'], 401);
         }
 
         return $this->respondWithToken($token);
@@ -93,11 +96,14 @@ class AuthController extends Controller
      */
     public function me()
     {
-        $user = Auth::guard('api')->user();
-        // En Laravel 12, usamos with para cargar relaciones
-        $user = User::with('roles')->find($user->id);
+        $user = auth()->user();
+        $user->load('roles:id,name');
         
-        return response()->json($user);
+        return response()->json([
+            'user' => $user,
+            'roles' => $user->roles->pluck('name'),
+            'isAdmin' => $user->hasRole('admin')
+        ]);
     }
 
     /**
@@ -107,9 +113,9 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        Auth::guard('api')->logout();
+        auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Sesión cerrada exitosamente']);
     }
 
     /**
@@ -119,13 +125,7 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        // En Laravel 12, usamos JWTAuth directamente para refrescar tokens
-        try {
-            $token = JWTAuth::parseToken()->refresh();
-            return $this->respondWithToken($token);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Token cannot be refreshed, please login again.'], 401);
-        }
+        return $this->respondWithToken(auth()->refresh());
     }
 
     /**
@@ -137,14 +137,10 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        // Asegurar que el TTL sea un entero
-        $ttl = intval(config('jwt.ttl'));
-        
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => $ttl * 60, // Convertimos minutos a segundos
-            'user' => Auth::guard('api')->user()
+            'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
 }

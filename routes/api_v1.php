@@ -1,26 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\AdminController;
 use App\Http\Controllers\API\V1\BoardController;
 use App\Http\Controllers\API\V1\BoardListController;
 use App\Http\Controllers\API\V1\CardController;
 use App\Http\Controllers\API\V1\LabelController;
 use App\Http\Controllers\API\V1\CommentController;
-
-// Rutas públicas de autenticación
-Route::prefix('auth')->group(function () {
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login']);
-    
-    // Rutas que requieren autenticación
-    Route::middleware('auth:api')->group(function () {
-        Route::post('logout', [AuthController::class, 'logout']);
-        Route::post('refresh', [AuthController::class, 'refresh']);
-        Route::get('me', [AuthController::class, 'me']);
-    });
-});
+use App\Http\Controllers\API\AuthController;
 
 // Rutas protegidas por JWT
 Route::middleware('auth:api')->group(function () {
