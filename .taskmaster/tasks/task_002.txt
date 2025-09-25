@@ -1,0 +1,11 @@
+# Task ID: 2
+# Title: Configure Database Connection
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Set up MySQL database connection in the Laravel application.
+# Details:
+Edit the `.env` file to configure the database connection parameters (DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD). Run migrations to ensure the connection works.
+
+# Test Strategy:
+Run `php artisan migrate` and check for successful migration without errors.

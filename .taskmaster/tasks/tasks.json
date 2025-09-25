@@ -1,0 +1,138 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Project Repository",
+        "description": "Initialize a new Laravel 12 project repository for the Kanban API backend.",
+        "details": "Use Composer to create a new Laravel project: `composer create-project --prefer-dist laravel/laravel kanban-api`. Set up version control with Git and create a remote repository on GitHub or similar.",
+        "testStrategy": "Verify that the project initializes correctly and the default Laravel welcome page is accessible.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Configure Database Connection",
+        "description": "Set up MySQL database connection in the Laravel application.",
+        "details": "Edit the `.env` file to configure the database connection parameters (DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD). Run migrations to ensure the connection works.",
+        "testStrategy": "Run `php artisan migrate` and check for successful migration without errors.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Implement User Registration and Authentication",
+        "description": "Develop user registration and JWT authentication functionality.",
+        "details": "Create User model and migration. Implement registration and login endpoints using Laravel's built-in authentication features and JWT for token generation. Use `tymon/jwt-auth` package for JWT handling.",
+        "testStrategy": "Test registration and login endpoints with valid and invalid data, ensuring JWT tokens are returned and valid.",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 5,
+            "title": "Setup API Versioning",
+            "description": "Implement versioning for the API to manage future changes.",
+            "status": "pending",
+            "dependencies": [
+              8
+            ],
+            "details": "Use Laravel's routing capabilities to set up versioning in the API routes (e.g., /api/v1/projects).",
+            "testStrategy": "Verify that versioned endpoints respond correctly and that changes in future versions do not affect existing functionality."
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Setup Role Management",
+        "description": "Implement role management for users (admin and normal user).",
+        "details": "Use a roles table and a pivot table to manage user roles. Implement middleware to restrict access based on user roles for certain routes.",
+        "testStrategy": "Test role assignment and access control by attempting to access restricted routes with different user roles.",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Create Project Management Functionality",
+        "description": "Develop CRUD operations for projects, accessible only to admins.",
+        "details": "Create Project model and migration. Implement controller methods for creating, reading, updating, and deleting projects. Ensure that only users with admin role can access these endpoints.",
+        "testStrategy": "Test all CRUD operations for projects with admin and non-admin users to ensure proper access control.",
+        "priority": "high",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Implement Board Management Functionality",
+        "description": "Develop CRUD operations for boards associated with projects, accessible only to admins.",
+        "details": "Create Board model and migration. Implement controller methods for managing boards under projects. Ensure that only admins can create or modify boards.",
+        "testStrategy": "Test CRUD operations for boards with admin users and verify that non-admin users cannot access these endpoints.",
+        "priority": "high",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Task Management Functionality",
+        "description": "Develop CRUD operations for tasks within boards, accessible based on user roles.",
+        "details": "Create Task model and migration. Implement controller methods for managing tasks within boards, allowing both admins and normal users to create and modify tasks based on permissions.",
+        "testStrategy": "Test CRUD operations for tasks with both admin and normal users, ensuring permissions are enforced.",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Implement Task State Management",
+        "description": "Allow tasks to change states (backlog, in development, paused, etc.).",
+        "details": "Add a state field to the Task model. Implement methods to update the state of tasks and ensure valid state transitions are enforced.",
+        "testStrategy": "Test state transitions for tasks to ensure they follow the defined workflow and validate state changes.",
+        "priority": "medium",
+        "dependencies": [
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Implement Logging and Error Handling",
+        "description": "Set up logging for errors and ensure compliance with JSON:API specifications.",
+        "details": "Configure Laravel's logging system to capture errors. Ensure all API responses adhere to JSON:API standards for both success and error responses.",
+        "testStrategy": "Test various API endpoints to ensure errors are logged correctly and responses are formatted according to JSON:API.",
+        "priority": "medium",
+        "dependencies": [
+          9
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-09-20T23:37:12.764Z",
+      "updated": "2025-09-20T23:37:12.764Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

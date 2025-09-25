@@ -1,0 +1,11 @@
+# Task ID: 7
+# Title: Task Management Functionality
+# Status: pending
+# Dependencies: 6
+# Priority: medium
+# Description: Develop CRUD operations for tasks within boards, accessible based on user roles.
+# Details:
+Create Task model and migration. Implement controller methods for managing tasks within boards, allowing both admins and normal users to create and modify tasks based on permissions.
+
+# Test Strategy:
+Test CRUD operations for tasks with both admin and normal users, ensuring permissions are enforced.

@@ -1,0 +1,11 @@
+# Task ID: 1
+# Title: Setup Project Repository
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Initialize a new Laravel 12 project repository for the Kanban API backend.
+# Details:
+Use Composer to create a new Laravel project: `composer create-project --prefer-dist laravel/laravel kanban-api`. Set up version control with Git and create a remote repository on GitHub or similar.
+
+# Test Strategy:
+Verify that the project initializes correctly and the default Laravel welcome page is accessible.

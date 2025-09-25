@@ -1,0 +1,11 @@
+# Task ID: 8
+# Title: Implement Task State Management
+# Status: pending
+# Dependencies: 7
+# Priority: medium
+# Description: Allow tasks to change states (backlog, in development, paused, etc.).
+# Details:
+Add a state field to the Task model. Implement methods to update the state of tasks and ensure valid state transitions are enforced.
+
+# Test Strategy:
+Test state transitions for tasks to ensure they follow the defined workflow and validate state changes.

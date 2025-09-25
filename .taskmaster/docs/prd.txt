@@ -1,0 +1,55 @@
+# PRD - Kanban API Backend (Laravel)
+
+## Resumen
+Desarrollar una API backend en Laravel 12 para la gestión de proyectos tipo Kanban, inspirada en Trello, con autenticación JWT, roles y permisos, versionamiento, logging, y cumplimiento de la especificación JSON:API.
+
+## Objetivos
+- Permitir registro y autenticación de usuarios (JWT).
+- Gestión de roles: administrador y usuario normal.
+- Solo administradores pueden crear proyectos y tableros.
+- Cada proyecto puede tener múltiples tableros.
+- Cada tablero puede gestionar tareas en diferentes estados (backlog, en desarrollo, pausado, etc.).
+- Versionamiento de la API.
+- Uso de spatie/data para DTOs.
+- Logging de errores.
+- Respuestas y errores bajo especificación JSON:API.
+- Documentación y exportación de endpoints a Postman.
+- Organización del código por capas (Repository, Service, etc.).
+
+## Requerimientos Funcionales
+1. Registro y login de usuarios con JWT.
+2. Gestión de roles y permisos (admin/usuario).
+3. CRUD de proyectos (solo admin).
+4. CRUD de tableros por proyecto (solo admin).
+5. CRUD de tareas por tablero (ambos roles, según permisos).
+6. Cambios de estado de tareas (backlog, en desarrollo, pausado, etc.).
+7. Versionamiento de la API.
+8. Logging de errores.
+9. Cumplimiento de JSON:API.
+10. Documentación y exportación a Postman.
+
+## Requerimientos Técnicos
+- Laravel 12
+- MySQL
+- JWT nativo
+- spatie/data
+- Logging
+- JSON:API
+- Repository, Service, Controller layers
+
+## Alcance
+- Backend API RESTful
+- Sin frontend
+- Documentación y colección Postman
+
+## Exclusiones
+- No frontend
+- No integración con servicios externos
+
+## Datos de ejemplo
+- Usuarios admin y normales
+- Proyectos, tableros y tareas de prueba
+
+## Notas
+- Priorizar migraciones, relaciones y seeders antes de lógica de negocio.
+- Inspiración visual: Trello (ver capturas adjuntas)

@@ -1,0 +1,11 @@
+# Task ID: 4
+# Title: Setup Role Management
+# Status: pending
+# Dependencies: 3
+# Priority: medium
+# Description: Implement role management for users (admin and normal user).
+# Details:
+Use a roles table and a pivot table to manage user roles. Implement middleware to restrict access based on user roles for certain routes.
+
+# Test Strategy:
+Test role assignment and access control by attempting to access restricted routes with different user roles.

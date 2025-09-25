@@ -1,0 +1,11 @@
+# Task ID: 5
+# Title: Create Project Management Functionality
+# Status: pending
+# Dependencies: 4
+# Priority: high
+# Description: Develop CRUD operations for projects, accessible only to admins.
+# Details:
+Create Project model and migration. Implement controller methods for creating, reading, updating, and deleting projects. Ensure that only users with admin role can access these endpoints.
+
+# Test Strategy:
+Test all CRUD operations for projects with admin and non-admin users to ensure proper access control.

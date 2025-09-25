@@ -1,0 +1,11 @@
+# Task ID: 6
+# Title: Implement Board Management Functionality
+# Status: pending
+# Dependencies: 5
+# Priority: high
+# Description: Develop CRUD operations for boards associated with projects, accessible only to admins.
+# Details:
+Create Board model and migration. Implement controller methods for managing boards under projects. Ensure that only admins can create or modify boards.
+
+# Test Strategy:
+Test CRUD operations for boards with admin users and verify that non-admin users cannot access these endpoints.
