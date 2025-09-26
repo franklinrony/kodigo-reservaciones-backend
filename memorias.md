@@ -52,7 +52,8 @@
 
 ## Tarea: Prueba de endpoints de autenticación y creación de documentación
 
-- Se creó una colección de Postman (`postman_collection.json`) con todos los endpoints de la API
+- Se creó una colección de Postman (`postman/postman_collection_reordered.json`) con todos los endpoints de la API
+- Las colecciones de Postman están organizadas en la carpeta `postman/` para mejor estructura del proyecto
 - Se desarrolló documentación detallada de la API (`API_DOCUMENTATION.md`) con información sobre:
   - Endpoints disponibles
   - Formato de peticiones y respuestas
@@ -143,8 +144,8 @@ Para facilitar las pruebas de la API, se ha creado una colección de Postman con
 
 1. **Importar la colección y el entorno**:
    - Abrir Postman
-   - Importar el archivo `postman_collection.json` (Archivo > Importar)
-   - Importar el archivo `postman_environment.json`
+   - Importar el archivo `postman/postman_collection_reordered.json` (Archivo > Importar)
+   - Importar el archivo `postman/postman_environment.json`
    - Seleccionar el entorno "Kanban API Environment" en el selector de entornos
 
 2. **Configurar el entorno**:
@@ -169,7 +170,7 @@ Para facilitar las pruebas de la API, se ha creado una colección de Postman con
 6. **Usar la CLI de Postman**:
    - También se puede ejecutar la colección desde la línea de comandos usando Postman CLI
    - Asegúrate de tener instalado el CLI de Postman (`postman --version` para verificar)
-   - Ejecuta el comando: `postman collection run postman_collection.json --environment postman_environment.json`
+   - Ejecuta el comando: `postman collection run postman/postman_collection_reordered.json --environment postman/postman_environment.json`
    - Para autenticación automatizada, añade la variable `--env-var "email=test@example.com" --env-var "password=password"`
    - Para generar reportes añade: `--reporters cli,json,html --reporter-json-export ./reports/report.json`
 
@@ -238,7 +239,7 @@ Se han implementado los siguientes controladores para el sistema Kanban:
 
 4. **Tests**:
    - Se ha actualizado el script test_api.bat para probar los endpoints del sistema Kanban
-   - La colección de Postman (postman_collection.json) incluye ejemplos para todos los endpoints
+   - La colección de Postman (postman/postman_collection_reordered.json) incluye ejemplos para todos los endpoints
 
 ## Rutas API
 
@@ -403,10 +404,10 @@ php artisan route:list --path=api/v1/boards
 ### Prueba de endpoints con Postman CLI
 ```bash
 # Ejecutar solicitud de login para obtener token
-postman collection run postman_collection.json -i Login --env-var "email=test@example.com" --env-var "password=password" --reporters json --reporter-json-export token_response.json --silent
+postman collection run postman/postman_collection_reordered.json -i Login --env-var "email=test@example.com" --env-var "password=password" --reporters json --reporter-json-export token_response.json --silent
 
 # Ejecutar solicitud con token de autenticación
-postman collection run postman_collection.json -i "Create Board" --env-var "base_url=http://localhost:8000" --env-var "token=AQUÍ_VA_EL_TOKEN" --reporters cli
+postman collection run postman/postman_collection_reordered.json -i "Create Board" --env-var "base_url=http://localhost:8000" --env-var "token=AQUÍ_VA_EL_TOKEN" --reporters cli
 
 # Probar endpoint sin autenticación
 postman collection run auth_test_collection.json -i "Get Boards No Auth" --reporters cli
@@ -873,7 +874,7 @@ Invoke-WebRequest -Uri "http://localhost:8000/api/auth/login" -Method POST -Cont
 Usar el token obtenido en las pruebas de Postman CLI:
 
 ```bash
-postman collection run postman_collection.json --environment postman_environment.json --env-var "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDQ2MDQsImV4cCI6MTc1ODkwODIwNCwibmJmIjoxNzU4OTA0NjA0LCJqdGkiOiJUdXVtVFg3M0Q3ZEZoeXhJIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.73QWsIbE3M5RVNWlEPvMkFchHYCYlKCmADPs5sbaAYk" --reporters cli,json --reporter-json-export authenticated_test_results.json
+postman collection run postman/postman_collection_reordered.json --environment postman/postman_environment.json --env-var "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDQ2MDQsImV4cCI6MTc1ODkwODIwNCwibmJmIjoxNzU4OTA0NjA0LCJqdGkiOiJUdXVtVFg3M0Q3ZEZoeXhJIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.73QWsIbE3M5RVNWlEPvMkFchHYCYlKCmADPs5sbaAYk" --reporters cli,json --reporter-json-export authenticated_test_results.json
 ```
 
 #### 6. Verificar resultados de las pruebas
@@ -941,8 +942,8 @@ Usar la opción `-i` (o `--request`) de Postman CLI para ejecutar únicamente la
 
 ### Comando para ejecutar solo endpoints Kanban
 ```bash
-postman collection run postman_collection.json \
-  --environment postman_environment.json \
+postman collection run postman/postman_collection_reordered.json \
+  --environment postman/postman_environment.json \
   -i "Boards" \
   -i "Lists" \
   -i "Cards" \
