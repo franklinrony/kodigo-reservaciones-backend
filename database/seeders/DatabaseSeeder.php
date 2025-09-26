@@ -13,14 +13,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ejecutar el seeder de roles
-        $this->call(RoleSeeder::class);
-
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Ejecutar seeders en orden de dependencias
+        $this->call([
+            RoleSeeder::class,        // Crear roles básicos
+            UserSeeder::class,        // Crear usuarios con roles asignados
+            BoardSeeder::class,       // Crear tableros
+            BoardListSeeder::class,   // Crear listas en tableros
+            LabelSeeder::class,       // Crear etiquetas en tableros
+            CardSeeder::class,        // Crear tarjetas en listas
+            CommentSeeder::class,     // Crear comentarios en tarjetas
+            BoardUserSeeder::class,   // Asignar colaboradores a tableros
+            CardLabelSeeder::class,   // Asignar etiquetas a tarjetas
         ]);
     }
 }

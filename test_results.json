@@ -1,0 +1,6387 @@
+{
+  "run": {
+    "meta": {
+      "collectionId": "74c5bd93-c1ee-4620-96f2-108dd48e3d12",
+      "collectionName": "Kodigo Kanban API - Actualizada",
+      "started": 1758903892319,
+      "completed": 1758903936181,
+      "duration": 43862
+    },
+    "summary": {
+      "iterations": {
+        "executed": 1,
+        "errors": 0
+      },
+      "executedRequests": {
+        "executed": 34,
+        "errors": 0
+      },
+      "prerequestScripts": {
+        "executed": 0,
+        "errors": 0
+      },
+      "postresponseScripts": {
+        "executed": 1,
+        "errors": 0
+      },
+      "tests": {
+        "executed": 1,
+        "failed": 0,
+        "passed": 1,
+        "skipped": 0
+      },
+      "timeStats": {
+        "responseAverage": 1210.9705882352941,
+        "responseMin": 1105,
+        "responseMax": 2662,
+        "responseStandardDeviation": 270.7466240400159
+      }
+    },
+    "executions": [
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "f6b6ecaf-d500-4bd8-a085-d9420652875a",
+          "name": "Register",
+          "description": {
+            "content": "Registra un nuevo usuario en el sistema",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "auth",
+              "register"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "b795f13b-46b1-4cf7-8ead-ce1f6af149ec",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "134",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"Usuario Prueba\",\n    \"email\": \"test@example.com\",\n    \"password\": \"password\",\n    \"password_confirmation\": \"password\"\n}"
+          }
+        },
+        "response": {
+          "id": "c0c63b71-8c32-462e-9cca-4f4d11897122",
+          "_details": {
+            "name": "Unprocessable Content",
+            "detail": "The request was well-formed but was unable to be followed due to semantic errors.",
+            "code": 422,
+            "standardName": "Unprocessable Entity (WebDAV) (RFC 4918)"
+          },
+          "status": "Unprocessable Content",
+          "code": 422,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:24:53 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:24:53 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              115,
+              34,
+              58,
+              123,
+              34,
+              101,
+              109,
+              97,
+              105,
+              108,
+              34,
+              58,
+              91,
+              34,
+              84,
+              104,
+              101,
+              32,
+              101,
+              109,
+              97,
+              105,
+              108,
+              32,
+              104,
+              97,
+              115,
+              32,
+              97,
+              108,
+              114,
+              101,
+              97,
+              100,
+              121,
+              32,
+              98,
+              101,
+              101,
+              110,
+              32,
+              116,
+              97,
+              107,
+              101,
+              110,
+              46,
+              34,
+              93,
+              125,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1573,
+          "responseSize": 58,
+          "downloadedBytes": 58
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "3ddc5652-f158-4714-bc91-2fc3db4b5e18",
+          "name": "Login",
+          "description": {
+            "content": "Inicia sesión y devuelve un token JWT",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "auth",
+              "login"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "34efd122-bd06-416b-a9f4-f4f650fd9b64",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "63",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"password\"\n}"
+          }
+        },
+        "response": {
+          "id": "5fe81016-d71c-49e5-8d27-d9169d37403b",
+          "_details": {
+            "name": "OK",
+            "detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action.",
+            "code": 200,
+            "standardName": "OK"
+          },
+          "status": "OK",
+          "code": 200,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:24:55 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:24:55 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              116,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              34,
+              101,
+              121,
+              74,
+              48,
+              101,
+              88,
+              65,
+              105,
+              79,
+              105,
+              74,
+              75,
+              86,
+              49,
+              81,
+              105,
+              76,
+              67,
+              74,
+              104,
+              98,
+              71,
+              99,
+              105,
+              79,
+              105,
+              74,
+              73,
+              85,
+              122,
+              73,
+              49,
+              78,
+              105,
+              74,
+              57,
+              46,
+              101,
+              121,
+              74,
+              112,
+              99,
+              51,
+              77,
+              105,
+              79,
+              105,
+              74,
+              111,
+              100,
+              72,
+              82,
+              119,
+              79,
+              105,
+              56,
+              118,
+              98,
+              71,
+              57,
+              106,
+              89,
+              87,
+              120,
+              111,
+              98,
+              51,
+              78,
+              48,
+              79,
+              106,
+              103,
+              119,
+              77,
+              68,
+              65,
+              118,
+              89,
+              88,
+              66,
+              112,
+              76,
+              50,
+              70,
+              49,
+              100,
+              71,
+              103,
+              118,
+              98,
+              71,
+              57,
+              110,
+              97,
+              87,
+              52,
+              105,
+              76,
+              67,
+              74,
+              112,
+              89,
+              88,
+              81,
+              105,
+              79,
+              106,
+              69,
+              51,
+              78,
+              84,
+              103,
+              53,
+              77,
+              68,
+              77,
+              52,
+              79,
+              84,
+              85,
+              115,
+              73,
+              109,
+              86,
+              52,
+              99,
+              67,
+              73,
+              54,
+              77,
+              84,
+              99,
+              49,
+              79,
+              68,
+              107,
+              119,
+              78,
+              122,
+              81,
+              53,
+              78,
+              83,
+              119,
+              105,
+              98,
+              109,
+              74,
+              109,
+              73,
+              106,
+              111,
+              120,
+              78,
+              122,
+              85,
+              52,
+              79,
+              84,
+              65,
+              122,
+              79,
+              68,
+              107,
+              49,
+              76,
+              67,
+              74,
+              113,
+              100,
+              71,
+              107,
+              105,
+              79,
+              105,
+              74,
+              49,
+              82,
+              84,
+              74,
+              69,
+              79,
+              84,
+              73,
+              121,
+              83,
+              68,
+              103,
+              121,
+              99,
+              107,
+              120,
+              89,
+              82,
+              49,
+              81,
+              49,
+              73,
+              105,
+              119,
+              105,
+              99,
+              51,
+              86,
+              105,
+              73,
+              106,
+              111,
+              105,
+              77,
+              83,
+              73,
+              115,
+              73,
+              110,
+              66,
+              121,
+              100,
+              105,
+              73,
+              54,
+              73,
+              106,
+              73,
+              122,
+              89,
+              109,
+              81,
+              49,
+              89,
+              122,
+              103,
+              53,
+              78,
+              68,
+              108,
+              109,
+              78,
+              106,
+              65,
+              119,
+              89,
+              87,
+              82,
+              105,
+              77,
+              122,
+              108,
+              108,
+              78,
+              122,
+              65,
+              120,
+              89,
+              122,
+              81,
+              119,
+              77,
+              68,
+              103,
+              51,
+              77,
+              109,
+              82,
+              105,
+              78,
+              50,
+              69,
+              49,
+              79,
+              84,
+              99,
+              50,
+              90,
+              106,
+              99,
+              105,
+              102,
+              81,
+              46,
+              48,
+              112,
+              98,
+              53,
+              121,
+              122,
+              76,
+              111,
+              84,
+              114,
+              49,
+              80,
+              105,
+              48,
+              68,
+              107,
+              65,
+              112,
+              116,
+              65,
+              80,
+              106,
+              108,
+              83,
+              66,
+              70,
+              81,
+              48,
+              84,
+              80,
+              57,
+              68,
+              99,
+              56,
+              51,
+              109,
+              100,
+              53,
+              74,
+              111,
+              115,
+              82,
+              81,
+              34,
+              44,
+              34,
+              116,
+              111,
+              107,
+              101,
+              110,
+              95,
+              116,
+              121,
+              112,
+              101,
+              34,
+              58,
+              34,
+              98,
+              101,
+              97,
+              114,
+              101,
+              114,
+              34,
+              44,
+              34,
+              101,
+              120,
+              112,
+              105,
+              114,
+              101,
+              115,
+              95,
+              105,
+              110,
+              34,
+              58,
+              51,
+              54,
+              48,
+              48,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1518,
+          "responseSize": 375,
+          "downloadedBytes": 375
+        },
+        "tests": [
+          {
+            "name": "Login exitoso",
+            "status": "passed"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "d47112e6-3a43-40c3-bd5f-4defdc766f1d",
+          "name": "Me",
+          "description": {
+            "content": "Obtiene información del usuario autenticado",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "auth",
+              "me"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "45431448-71d3-4429-b638-50ff9126c8ba",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "b752e0d6-5b4b-4637-b666-dfcdfe56be69",
+          "_details": {
+            "name": "OK",
+            "detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action.",
+            "code": 200,
+            "standardName": "OK"
+          },
+          "status": "OK",
+          "code": 200,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:24:56 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:24:56 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              117,
+              115,
+              101,
+              114,
+              34,
+              58,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              49,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              84,
+              101,
+              115,
+              116,
+              32,
+              85,
+              115,
+              101,
+              114,
+              34,
+              44,
+              34,
+              101,
+              109,
+              97,
+              105,
+              108,
+              34,
+              58,
+              34,
+              116,
+              101,
+              115,
+              116,
+              64,
+              101,
+              120,
+              97,
+              109,
+              112,
+              108,
+              101,
+              46,
+              99,
+              111,
+              109,
+              34,
+              44,
+              34,
+              101,
+              109,
+              97,
+              105,
+              108,
+              95,
+              118,
+              101,
+              114,
+              105,
+              102,
+              105,
+              101,
+              100,
+              95,
+              97,
+              116,
+              34,
+              58,
+              34,
+              50,
+              48,
+              50,
+              53,
+              45,
+              48,
+              57,
+              45,
+              50,
+              51,
+              84,
+              48,
+              48,
+              58,
+              49,
+              57,
+              58,
+              52,
+              52,
+              46,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              90,
+              34,
+              44,
+              34,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              95,
+              97,
+              116,
+              34,
+              58,
+              34,
+              50,
+              48,
+              50,
+              53,
+              45,
+              48,
+              57,
+              45,
+              50,
+              51,
+              84,
+              48,
+              48,
+              58,
+              49,
+              57,
+              58,
+              52,
+              53,
+              46,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              90,
+              34,
+              44,
+              34,
+              117,
+              112,
+              100,
+              97,
+              116,
+              101,
+              100,
+              95,
+              97,
+              116,
+              34,
+              58,
+              34,
+              50,
+              48,
+              50,
+              53,
+              45,
+              48,
+              57,
+              45,
+              50,
+              51,
+              84,
+              48,
+              48,
+              58,
+              49,
+              57,
+              58,
+              52,
+              53,
+              46,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              90,
+              34,
+              125,
+              44,
+              34,
+              114,
+              111,
+              108,
+              101,
+              115,
+              34,
+              58,
+              91,
+              34,
+              97,
+              100,
+              109,
+              105,
+              110,
+              34,
+              93,
+              44,
+              34,
+              105,
+              115,
+              65,
+              100,
+              109,
+              105,
+              110,
+              34,
+              58,
+              116,
+              114,
+              117,
+              101,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1153,
+          "responseSize": 232,
+          "downloadedBytes": 232
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "42c0ba60-672a-4557-aec1-0f5e91552814",
+          "name": "Show Current Token",
+          "description": {
+            "content": "Muestra el token JWT actual guardado en las variables de entorno (no hace llamada real a la API)",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "https",
+            "path": [
+              "get"
+            ],
+            "host": [
+              "httpbin",
+              "org"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "92c4a0ca-9de0-459f-940e-5668b51519cd",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "httpbin.org",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "d125d9a4-d320-4c15-ba33-13b0c01ea6b6",
+          "_details": {
+            "name": "OK",
+            "detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action.",
+            "code": 200,
+            "standardName": "OK"
+          },
+          "status": "OK",
+          "code": 200,
+          "headers": [
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:24:59 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "404"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Server",
+              "value": "gunicorn/19.9.0"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Access-Control-Allow-Credentials",
+              "value": "true"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              10,
+              32,
+              32,
+              34,
+              97,
+              114,
+              103,
+              115,
+              34,
+              58,
+              32,
+              123,
+              125,
+              44,
+              32,
+              10,
+              32,
+              32,
+              34,
+              104,
+              101,
+              97,
+              100,
+              101,
+              114,
+              115,
+              34,
+              58,
+              32,
+              123,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              65,
+              99,
+              99,
+              101,
+              112,
+              116,
+              34,
+              58,
+              32,
+              34,
+              42,
+              47,
+              42,
+              34,
+              44,
+              32,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              65,
+              99,
+              99,
+              101,
+              112,
+              116,
+              45,
+              69,
+              110,
+              99,
+              111,
+              100,
+              105,
+              110,
+              103,
+              34,
+              58,
+              32,
+              34,
+              103,
+              122,
+              105,
+              112,
+              44,
+              32,
+              100,
+              101,
+              102,
+              108,
+              97,
+              116,
+              101,
+              44,
+              32,
+              98,
+              114,
+              34,
+              44,
+              32,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              67,
+              97,
+              99,
+              104,
+              101,
+              45,
+              67,
+              111,
+              110,
+              116,
+              114,
+              111,
+              108,
+              34,
+              58,
+              32,
+              34,
+              110,
+              111,
+              45,
+              99,
+              97,
+              99,
+              104,
+              101,
+              34,
+              44,
+              32,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              72,
+              111,
+              115,
+              116,
+              34,
+              58,
+              32,
+              34,
+              104,
+              116,
+              116,
+              112,
+              98,
+              105,
+              110,
+              46,
+              111,
+              114,
+              103,
+              34,
+              44,
+              32,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              80,
+              111,
+              115,
+              116,
+              109,
+              97,
+              110,
+              45,
+              84,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              32,
+              34,
+              57,
+              50,
+              99,
+              52,
+              97,
+              48,
+              99,
+              97,
+              45,
+              57,
+              100,
+              101,
+              48,
+              45,
+              52,
+              53,
+              57,
+              102,
+              45,
+              57,
+              52,
+              48,
+              101,
+              45,
+              53,
+              54,
+              54,
+              56,
+              98,
+              53,
+              49,
+              53,
+              49,
+              57,
+              99,
+              100,
+              34,
+              44,
+              32,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              85,
+              115,
+              101,
+              114,
+              45,
+              65,
+              103,
+              101,
+              110,
+              116,
+              34,
+              58,
+              32,
+              34,
+              80,
+              111,
+              115,
+              116,
+              109,
+              97,
+              110,
+              82,
+              117,
+              110,
+              116,
+              105,
+              109,
+              101,
+              47,
+              55,
+              46,
+              52,
+              52,
+              46,
+              49,
+              34,
+              44,
+              32,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              88,
+              45,
+              65,
+              109,
+              122,
+              110,
+              45,
+              84,
+              114,
+              97,
+              99,
+              101,
+              45,
+              73,
+              100,
+              34,
+              58,
+              32,
+              34,
+              82,
+              111,
+              111,
+              116,
+              61,
+              49,
+              45,
+              54,
+              56,
+              100,
+              54,
+              98,
+              101,
+              53,
+              57,
+              45,
+              51,
+              97,
+              57,
+              101,
+              52,
+              101,
+              48,
+              48,
+              52,
+              57,
+              53,
+              48,
+              99,
+              49,
+              98,
+              100,
+              48,
+              99,
+              101,
+              101,
+              52,
+              49,
+              100,
+              52,
+              34,
+              10,
+              32,
+              32,
+              125,
+              44,
+              32,
+              10,
+              32,
+              32,
+              34,
+              111,
+              114,
+              105,
+              103,
+              105,
+              110,
+              34,
+              58,
+              32,
+              34,
+              49,
+              57,
+              48,
+              46,
+              54,
+              50,
+              46,
+              55,
+              46,
+              56,
+              49,
+              34,
+              44,
+              32,
+              10,
+              32,
+              32,
+              34,
+              117,
+              114,
+              108,
+              34,
+              58,
+              32,
+              34,
+              104,
+              116,
+              116,
+              112,
+              115,
+              58,
+              47,
+              47,
+              104,
+              116,
+              116,
+              112,
+              98,
+              105,
+              110,
+              46,
+              111,
+              114,
+              103,
+              47,
+              103,
+              101,
+              116,
+              34,
+              10,
+              125,
+              10
+            ]
+          },
+          "cookies": [],
+          "responseTime": 2662,
+          "responseSize": 404,
+          "downloadedBytes": 404
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "c87f6e31-d6e2-4d7d-b4bf-025724f9054d",
+          "name": "Logout",
+          "description": {
+            "content": "Cierra la sesión del usuario y invalida el token",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "auth",
+              "logout"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "2de6336b-5e76-45fb-b44f-d0a9f6861c6d",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "0",
+              "system": true
+            }
+          ],
+          "method": "POST"
+        },
+        "response": {
+          "id": "2050e149-b3f7-4e8b-8f60-9cf26d4cd82b",
+          "_details": {
+            "name": "OK",
+            "detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action.",
+            "code": 200,
+            "standardName": "OK"
+          },
+          "status": "OK",
+          "code": 200,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:00 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:00 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              83,
+              101,
+              115,
+              105,
+              92,
+              117,
+              48,
+              48,
+              102,
+              51,
+              110,
+              32,
+              99,
+              101,
+              114,
+              114,
+              97,
+              100,
+              97,
+              32,
+              101,
+              120,
+              105,
+              116,
+              111,
+              115,
+              97,
+              109,
+              101,
+              110,
+              116,
+              101,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1228,
+          "responseSize": 46,
+          "downloadedBytes": 46
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "dfa8b6c8-08c8-4da3-9418-c2da2864d929",
+          "name": "Refresh Token",
+          "description": {
+            "content": "Refresca el token JWT",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "auth",
+              "refresh"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "253dd4e0-a378-4540-85eb-359a7964c38e",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "0",
+              "system": true
+            }
+          ],
+          "method": "POST"
+        },
+        "response": {
+          "id": "b5df6d3e-9e25-4190-a988-f604afeb2861",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:01 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:01 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1182,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "353b946a-abd8-4d57-b620-8f7fc18287f9",
+          "name": "Get All Boards",
+          "description": {
+            "content": "Obtiene todos los tableros del usuario (propios y como colaborador)",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "57d16862-77db-4767-92af-ea57ad384388",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "904884fb-b110-4733-9654-1a4c0165e478",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:02 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:02 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1130,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "0fd9c866-fece-484f-b614-3e433766f88e",
+          "name": "Create Board",
+          "description": {
+            "content": "Crea un nuevo tablero",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "918faf84-d71d-47e4-89c5-e28d27c8c345",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "118",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"Mi Primer Tablero\",\n    \"description\": \"Un tablero para organizar mis tareas\",\n    \"is_public\": false\n}"
+          }
+        },
+        "response": {
+          "id": "8aadea69-1dd5-4667-8e2d-3cd20485d15f",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:04 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:04 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1134,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "57527871-3b93-494c-95b3-b9ce9711c9a5",
+          "name": "Get Board",
+          "description": {
+            "content": "Obtiene un tablero específico con sus listas, tarjetas y etiquetas",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "26243af6-72b0-4d8f-ab95-5e902a59a72b",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "b03b1025-5a03-4718-8de3-d815eedbd7c7",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:05 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:05 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1148,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "a1911bf5-7c3b-4c09-a0e2-11a53bcbb787",
+          "name": "Update Board",
+          "description": {
+            "content": "Actualiza un tablero existente (solo propietario)",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "1579a8f1-4aad-400e-88b0-46f5365f7248",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "113",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"Tablero Actualizado\",\n    \"description\": \"Nueva descripción del tablero\",\n    \"is_public\": true\n}"
+          }
+        },
+        "response": {
+          "id": "72fcb57d-5cfe-4746-a722-d91a1933b27a",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:06 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:06 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1118,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "40194984-6a94-448f-ad30-e67b32a75d66",
+          "name": "Delete Board",
+          "description": {
+            "content": "Elimina un tablero (solo propietario)",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "8198a0a2-8054-48df-98e0-add198005b32",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "DELETE"
+        },
+        "response": {
+          "id": "f6f95c5f-86db-440d-8b37-03531707471d",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:07 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:07 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1132,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "0bc3e65c-eac8-4bc6-909b-be7cf3a8de49",
+          "name": "Add Collaborator",
+          "description": {
+            "content": "Añade un colaborador al tablero (solo propietario)",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards",
+              "1",
+              "collaborators"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "ba323186-7e2d-4a13-9fa1-5b36d13e9708",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "42",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"email\": \"colaborador@example.com\"\n}"
+          }
+        },
+        "response": {
+          "id": "a4d507c2-bd67-4ccd-acad-48dcd598a097",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:08 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:08 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1131,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "6a4a2080-b32c-454f-a2e8-409f783c2e81",
+          "name": "Remove Collaborator",
+          "description": {
+            "content": "Elimina un colaborador del tablero (solo propietario)",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards",
+              "1",
+              "collaborators",
+              "2"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "fee7b8c3-ada2-45fb-a316-02c12f9c780b",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "DELETE"
+        },
+        "response": {
+          "id": "7b5b4029-1964-43b1-9064-49d21f83d640",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:10 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:10 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1137,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "2118dbdd-218c-4bbc-a8d3-0ce5270d309e",
+          "name": "Get Lists",
+          "description": {
+            "content": "Obtiene todas las listas de un tablero ordenadas por posición",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards",
+              "1",
+              "lists"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "8fdac59f-7581-4d44-b893-bbd2fc092a5f",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "1446e698-0536-490b-b4cc-f267885549b1",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:11 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:11 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1125,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "394956ae-17b3-4d32-bd00-4bcd298be9f1",
+          "name": "Create List",
+          "description": {
+            "content": "Crea una nueva lista en un tablero con manejo automático de posiciones",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards",
+              "1",
+              "lists"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "8d29ee7d-18a5-4de7-a575-d58aa42bd1a6",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "46",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"Por hacer\",\n    \"position\": 0\n}"
+          }
+        },
+        "response": {
+          "id": "2756bf39-5e51-43bc-bcb7-f67606d33bbc",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:12 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:12 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1136,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "526340b2-4419-48b4-b936-0be3c9bbed03",
+          "name": "Get List",
+          "description": {
+            "content": "Obtiene una lista específica con sus tarjetas",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards",
+              "1",
+              "lists",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "7eba3b5c-2001-4fe9-8d87-c129a04c85ce",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "d690f145-9687-49f8-a6df-5acf95415ef7",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:13 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:13 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1170,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "0590c1ff-0242-498f-974b-bb718df4a628",
+          "name": "Update List",
+          "description": {
+            "content": "Actualiza nombre y posición de una lista",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards",
+              "1",
+              "lists",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "5c1c8ea6-1657-4f25-b497-0050dc190cff",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "48",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"En progreso\",\n    \"position\": 1\n}"
+          }
+        },
+        "response": {
+          "id": "ea814999-02e8-4ad4-8138-6573faa68879",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:15 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:15 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1152,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "afe254e0-b4b0-4620-a842-3dfa721b8a59",
+          "name": "Delete List",
+          "description": {
+            "content": "Elimina una lista y reordena las posiciones restantes",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards",
+              "1",
+              "lists",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "030e5c25-b5b1-42b2-9049-d1efe336aefe",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "DELETE"
+        },
+        "response": {
+          "id": "8e820890-ef1e-4add-acd5-56aa59e43a05",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:16 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:16 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1105,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "037a7dcc-1aa5-46f3-8e8f-ad75dd9ff00c",
+          "name": "Get Cards",
+          "description": {
+            "content": "Obtiene todas las tarjetas de una lista con etiquetas y comentarios",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "lists",
+              "1",
+              "cards"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "0cef95ae-856a-4d6f-bd51-82d5644e4a0e",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "8162ab34-676a-42e4-a382-e99020096629",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:17 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:17 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1123,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "6125af28-b6cf-4e04-b3af-0d1aa001b073",
+          "name": "Create Card",
+          "description": {
+            "content": "Crea una nueva tarjeta en una lista con asignación opcional de etiquetas",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "lists",
+              "1",
+              "cards"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "a7431a1a-7499-4b33-bf3c-b54b19cef95d",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "166",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"title\": \"Mi primera tarea\",\n    \"description\": \"Descripción detallada de la tarea\",\n    \"position\": 0,\n    \"due_date\": \"2025-10-15\",\n    \"label_ids\": [1, 2]\n}"
+          }
+        },
+        "response": {
+          "id": "ff543d82-081c-4458-9f15-342668b95c0a",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:18 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:18 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1137,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "0187c6bd-3fb8-48d2-b960-908810df6c01",
+          "name": "Get Card",
+          "description": {
+            "content": "Obtiene detalles completos de una tarjeta con todas las relaciones",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "cards",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "b0a0e778-25b2-4e46-9767-3b90a00e5932",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "bedc6e83-53a9-4858-9002-be47f08d2e50",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:19 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:19 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1149,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "4395fcf9-ab74-42a8-8d7b-5815e0fddc97",
+          "name": "Update Card",
+          "description": {
+            "content": "Actualiza una tarjeta (incluyendo movimiento entre listas)",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "cards",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "cdbfe86f-033b-40cc-928d-05362883f59b",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "176",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"title\": \"Tarea actualizada\",\n    \"description\": \"Nueva descripción\",\n    \"board_list_id\": 2,\n    \"position\": 1,\n    \"due_date\": \"2025-10-20\",\n    \"is_completed\": true\n}"
+          }
+        },
+        "response": {
+          "id": "d3778aff-bb80-4580-9784-a138c9080afe",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:21 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:21 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1148,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "ee3b6d4e-409e-4719-8059-ba1fec38eed6",
+          "name": "Delete Card",
+          "description": {
+            "content": "Elimina una tarjeta y reordena las posiciones",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "cards",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "52839601-bc1a-40d6-9667-4d71366278e5",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "DELETE"
+        },
+        "response": {
+          "id": "2e459af6-f660-4477-b7f2-e466869e87d3",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:22 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:22 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1127,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "0dbc4f9a-fc59-4894-b611-4b6894b74664",
+          "name": "Get Labels",
+          "description": {
+            "content": "Obtiene todas las etiquetas disponibles en un tablero",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards",
+              "1",
+              "labels"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "5924bac7-7d31-4d52-aff1-eb4107074dc9",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "58652560-255b-44f9-85eb-7af261f7371b",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:23 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:23 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1158,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "9fb5f812-abd7-450e-b9cb-fd188c501fc3",
+          "name": "Create Label",
+          "description": {
+            "content": "Crea una nueva etiqueta en un tablero con nombre y color",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "boards",
+              "1",
+              "labels"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "9515e389-b497-489d-96f9-12809444f616",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "49",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"Urgente\",\n    \"color\": \"#FF0000\"\n}"
+          }
+        },
+        "response": {
+          "id": "20242200-e44e-4239-9892-05c038d0af3b",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:24 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:24 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1161,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "40219777-5bb6-456f-ae23-198fff8aee95",
+          "name": "Get Label",
+          "description": {
+            "content": "Obtiene detalles de una etiqueta específica",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "labels",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "22b5b519-6886-440b-9365-4231742870e9",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "88f0f6c9-f28a-4323-8917-6f9b7b6738f8",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:26 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:26 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1137,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "cfa72f02-ce77-461f-a579-a09e2516dd7b",
+          "name": "Update Label",
+          "description": {
+            "content": "Actualiza nombre y/o color de una etiqueta",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "labels",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "bd3bdd06-f797-44c9-af80-d6782b6ee13c",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "56",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"Alta Prioridad\",\n    \"color\": \"#FF5733\"\n}"
+          }
+        },
+        "response": {
+          "id": "47465e50-d2b1-4479-88a2-8a1e625921f3",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:27 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:27 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1117,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "57e84d63-ac23-4f7e-8417-8e7cd9c401ac",
+          "name": "Delete Label",
+          "description": {
+            "content": "Elimina una etiqueta (se remueve automáticamente de tarjetas)",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "labels",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "d7a8e65c-b6cf-460c-9ec8-8214a5a49811",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "DELETE"
+        },
+        "response": {
+          "id": "d44619b4-5e4f-4436-bf9c-490a73497746",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:28 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:28 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1138,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "a6bae125-0344-4372-8c41-e025b4232e7d",
+          "name": "Get Comments",
+          "description": {
+            "content": "Obtiene todos los comentarios de una tarjeta ordenados por fecha",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "cards",
+              "1",
+              "comments"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "abedff9b-ec06-4d48-9764-da23687bd77c",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "42b6776b-e552-4fd3-9182-76b2c8f94e5f",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:29 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:29 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1165,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "314d4d74-fec2-4b2f-8a32-55ca54dbafaa",
+          "name": "Create Comment",
+          "description": {
+            "content": "Crea un nuevo comentario en una tarjeta",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "cards",
+              "1",
+              "comments"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "7dd7a74b-f3e2-4159-83ed-9a98a0794ee1",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "57",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"content\": \"Este es un comentario sobre la tarea\"\n}"
+          }
+        },
+        "response": {
+          "id": "4239ef0c-7978-450d-851a-725fb9f562a9",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:30 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:30 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1135,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "56cb3c35-2b4c-4e7e-bb66-a286a07e664d",
+          "name": "Get Comment",
+          "description": {
+            "content": "Obtiene detalles de un comentario específico",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "comments",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "7fe6bfa4-a549-4109-b706-03c01a339051",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "de37ff55-cf3e-4d97-a9f3-91382bccd2fe",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:32 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:32 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1136,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "66a6eb73-b383-4918-a2e1-e5447b902313",
+          "name": "Update Comment",
+          "description": {
+            "content": "Actualiza un comentario existente (solo el autor)",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "comments",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "04bfae9d-bab0-4210-9175-ef7e56bd1ce4",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "66",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"content\": \"Comentario actualizado con nueva información\"\n}"
+          }
+        },
+        "response": {
+          "id": "f61d6134-aefb-4d4a-a829-78f217922a98",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:33 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:33 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1118,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "f0f5c8e7-e70c-4d2f-9b19-1aa0306c385e",
+          "name": "Delete Comment",
+          "description": {
+            "content": "Elimina un comentario (autor o administradores)",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "comments",
+              "1"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "94db58b4-6315-4af7-be82-1ecc4048acb8",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "DELETE"
+        },
+        "response": {
+          "id": "3ab7cda7-5767-457d-b5a6-4313e86f393f",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:34 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:34 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1128,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      },
+      {
+        "iterationCount": 0,
+        "requestExecuted": {
+          "id": "11f3f980-6293-48e0-8fe3-1e036dd95b53",
+          "name": "Admin Dashboard",
+          "description": {
+            "content": "Obtiene estadísticas generales del sistema (solo administradores)",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8000",
+            "path": [
+              "api",
+              "v1",
+              "admin",
+              "dashboard"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "headers": [
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDM4OTUsImV4cCI6MTc1ODkwNzQ5NSwibmJmIjoxNzU4OTAzODk1LCJqdGkiOiJ1RTJEOTIySDgyckxYR1Q1Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.0pb5yzLoTr1Pi0DkAptAPjlSBFQ0TP9Dc83md5JosRQ"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.44.1",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "5151412e-a35b-4cef-a619-d9db4417a173",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "d40050c6-6e41-4ebb-871b-86eb36a1ae7f",
+          "_details": {
+            "name": "Unauthorized",
+            "detail": "Similar to 403 Forbidden, but specifically for use when authentication is possible but has failed or not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.",
+            "code": 401,
+            "standardName": "Unauthorized"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "headers": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:35 GMT"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 26 Sep 2025 16:25:35 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              101,
+              110,
+              116,
+              105,
+              99,
+              97,
+              116,
+              101,
+              100,
+              46,
+              34,
+              125
+            ]
+          },
+          "cookies": [],
+          "responseTime": 1162,
+          "responseSize": 30,
+          "downloadedBytes": 30
+        },
+        "tests": [],
+        "errors": []
+      }
+    ],
+    "runError": null
+  }
+}
