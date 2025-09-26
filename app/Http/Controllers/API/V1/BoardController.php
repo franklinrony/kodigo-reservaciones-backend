@@ -8,11 +8,54 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @OA\PathItem(
+ *     path="/api/v1/boards"
+ * )
+ */
 class BoardController extends Controller
 {
 
     /**
-     * Display a listing of the boards.
+     * Listar todos los tableros del usuario autenticado.
+     *
+     * @OA\Get(
+     *     path="/api/v1/boards",
+     *     summary="Listar tableros del usuario",
+     *     description="Obtiene una lista de todos los tableros que el usuario puede acceder (propios y como colaborador)",
+     *     operationId="getBoards",
+     *     tags={"Tableros"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de tableros obtenida exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tableros recuperados con éxito"),
+     *             @OA\Property(property="boards", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="Proyecto Kanban"),
+     *                     @OA\Property(property="description", type="string", example="Tablero para gestión de tareas"),
+     *                     @OA\Property(property="is_public", type="boolean", example=false),
+     *                     @OA\Property(property="user", type="object",
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="Juan Pérez"),
+     *                         @OA\Property(property="email", type="string", example="juan@example.com")
+     *                     ),
+     *                     @OA\Property(property="lists_count", type="integer", example=3),
+     *                     @OA\Property(property="collaborators_count", type="integer", example=2)
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado - Token inválido o expirado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -45,7 +88,60 @@ class BoardController extends Controller
     }
 
     /**
-     * Store a newly created board in storage.
+     * Crear un nuevo tablero.
+     *
+     * @OA\Post(
+     *     path="/api/v1/boards",
+     *     summary="Crear nuevo tablero",
+     *     description="Crea un nuevo tablero Kanban para el usuario autenticado",
+     *     operationId="createBoard",
+     *     tags={"Tableros"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name"},
+     *             @OA\Property(property="name", type="string", maxLength=255, example="Mi Proyecto Kanban"),
+     *             @OA\Property(property="description", type="string", example="Descripción del proyecto"),
+     *             @OA\Property(property="is_public", type="boolean", example=false, description="Si el tablero es público o privado")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Tablero creado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero creado con éxito"),
+     *             @OA\Property(property="board", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Mi Proyecto Kanban"),
+     *                 @OA\Property(property="description", type="string", example="Descripción del proyecto"),
+     *                 @OA\Property(property="is_public", type="boolean", example=false),
+     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="name", type="array",
+     *                     @OA\Items(type="string", example="El campo nombre es obligatorio.")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -74,7 +170,84 @@ class BoardController extends Controller
     }
 
     /**
-     * Display the specified board.
+     * Mostrar detalles de un tablero específico.
+     *
+     * @OA\Get(
+     *     path="/api/v1/boards/{boardId}",
+     *     summary="Obtener detalles de un tablero",
+     *     description="Obtiene información completa de un tablero incluyendo listas, tarjetas, colaboradores y etiquetas",
+     *     operationId="getBoard",
+     *     tags={"Tableros"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="boardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del tablero",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalles del tablero obtenidos exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero recuperado con éxito"),
+     *             @OA\Property(property="board", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Proyecto Kanban"),
+     *                 @OA\Property(property="description", type="string", example="Gestión de tareas del proyecto"),
+     *                 @OA\Property(property="is_public", type="boolean", example=false),
+     *                 @OA\Property(property="user", type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="Juan Pérez"),
+     *                     @OA\Property(property="email", type="string", example="juan@example.com")
+     *                 ),
+     *                 @OA\Property(property="lists", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="Por hacer"),
+     *                         @OA\Property(property="position", type="integer", example=1),
+     *                         @OA\Property(property="cards", type="array",
+     *                             @OA\Items(
+     *                                 @OA\Property(property="id", type="integer", example=1),
+     *                                 @OA\Property(property="title", type="string", example="Implementar login"),
+     *                                 @OA\Property(property="description", type="string", example="Crear sistema de autenticación"),
+     *                                 @OA\Property(property="position", type="integer", example=1)
+     *                             )
+     *                         )
+     *                     )
+     *                 ),
+     *                 @OA\Property(property="collaborators", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=2),
+     *                         @OA\Property(property="name", type="string", example="María García"),
+     *                         @OA\Property(property="email", type="string", example="maria@example.com")
+     *                     )
+     *                 ),
+     *                 @OA\Property(property="labels", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="Urgente"),
+     *                         @OA\Property(property="color", type="string", example="#FF0000")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tablero no encontrado o sin acceso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  int  $boardId
      * @return \Illuminate\Http\JsonResponse
@@ -108,7 +281,65 @@ class BoardController extends Controller
     }
 
     /**
-     * Update the specified board in storage.
+     * Actualizar un tablero existente.
+     *
+     * @OA\Put(
+     *     path="/api/v1/boards/{boardId}",
+     *     summary="Actualizar tablero",
+     *     description="Actualiza la información de un tablero existente (solo el propietario puede hacerlo)",
+     *     operationId="updateBoard",
+     *     tags={"Tableros"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="boardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del tablero a actualizar",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", maxLength=255, example="Proyecto Kanban Actualizado"),
+     *             @OA\Property(property="description", type="string", example="Descripción actualizada del proyecto"),
+     *             @OA\Property(property="is_public", type="boolean", example=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tablero actualizado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero actualizado con éxito"),
+     *             @OA\Property(property="board", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Proyecto Kanban Actualizado"),
+     *                 @OA\Property(property="description", type="string", example="Descripción actualizada del proyecto"),
+     *                 @OA\Property(property="is_public", type="boolean", example=true)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Acceso denegado - Solo el propietario puede actualizar",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso de propietario")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tablero no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso de propietario")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $boardId
@@ -138,7 +369,51 @@ class BoardController extends Controller
     }
 
     /**
-     * Remove the specified board from storage.
+     * Eliminar un tablero.
+     *
+     * @OA\Delete(
+     *     path="/api/v1/boards/{boardId}",
+     *     summary="Eliminar tablero",
+     *     description="Elimina un tablero existente (solo el propietario puede hacerlo)",
+     *     operationId="deleteBoard",
+     *     tags={"Tableros"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="boardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del tablero a eliminar",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tablero eliminado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero eliminado con éxito")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Acceso denegado - Solo el propietario puede eliminar",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso de propietario")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tablero no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso de propietario")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  int  $boardId
      * @return \Illuminate\Http\JsonResponse
@@ -160,7 +435,65 @@ class BoardController extends Controller
     }
     
     /**
-     * Add a collaborator to the board.
+     * Añadir un colaborador a un tablero.
+     *
+     * @OA\Post(
+     *     path="/api/v1/boards/{boardId}/collaborators",
+     *     summary="Añadir colaborador",
+     *     description="Añade un usuario como colaborador a un tablero (solo el propietario puede hacerlo)",
+     *     operationId="addBoardCollaborator",
+     *     tags={"Tableros"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="boardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del tablero",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"user_id"},
+     *             @OA\Property(property="user_id", type="integer", example=2, description="ID del usuario a añadir como colaborador")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Colaborador añadido exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Colaborador añadido con éxito")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error en la solicitud",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="El propietario no puede ser añadido como colaborador")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Acceso denegado - Solo el propietario puede añadir colaboradores",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso de propietario")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tablero no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso de propietario")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $boardId
@@ -199,7 +532,58 @@ class BoardController extends Controller
     }
     
     /**
-     * Remove a collaborator from the board.
+     * Eliminar un colaborador de un tablero.
+     *
+     * @OA\Delete(
+     *     path="/api/v1/boards/{boardId}/collaborators/{userId}",
+     *     summary="Eliminar colaborador",
+     *     description="Elimina un colaborador de un tablero (solo el propietario puede hacerlo)",
+     *     operationId="removeBoardCollaborator",
+     *     tags={"Tableros"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="boardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del tablero",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del usuario colaborador a eliminar",
+     *         @OA\Schema(type="integer", example=2)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Colaborador eliminado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Colaborador eliminado con éxito")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Acceso denegado - Solo el propietario puede eliminar colaboradores",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso de propietario")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tablero no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso de propietario")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  int  $boardId
      * @param  int  $userId

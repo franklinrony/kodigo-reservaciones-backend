@@ -8,10 +8,68 @@ use App\Models\BoardList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @OA\PathItem(
+ *     path="/api/v1/boards/{boardId}/lists"
+ * )
+ */
 class BoardListController extends Controller
 {
     /**
-     * Display a listing of the lists for a specific board.
+     * Listar todas las listas de un tablero.
+     *
+     * @OA\Get(
+     *     path="/api/v1/boards/{boardId}/lists",
+     *     summary="Listar listas de un tablero",
+     *     description="Obtiene todas las listas de un tablero específico ordenadas por posición",
+     *     operationId="getBoardLists",
+     *     tags={"Listas"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="boardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del tablero",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listas obtenidas exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Listas recuperadas con éxito"),
+     *             @OA\Property(property="lists", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="Por hacer"),
+     *                     @OA\Property(property="position", type="integer", example=1),
+     *                     @OA\Property(property="board_id", type="integer", example=1),
+     *                     @OA\Property(property="cards", type="array",
+     *                         @OA\Items(
+     *                             @OA\Property(property="id", type="integer", example=1),
+     *                             @OA\Property(property="title", type="string", example="Implementar login"),
+     *                             @OA\Property(property="description", type="string", example="Crear sistema de autenticación"),
+     *                             @OA\Property(property="position", type="integer", example=1)
+     *                         )
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tablero no encontrado o sin acceso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  int  $boardId
      * @return \Illuminate\Http\JsonResponse
@@ -39,7 +97,68 @@ class BoardListController extends Controller
     }
 
     /**
-     * Store a newly created list in storage.
+     * Crear una nueva lista en un tablero.
+     *
+     * @OA\Post(
+     *     path="/api/v1/boards/{boardId}/lists",
+     *     summary="Crear nueva lista",
+     *     description="Crea una nueva lista (columna) en un tablero específico",
+     *     operationId="createBoardList",
+     *     tags={"Listas"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="boardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del tablero donde crear la lista",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name"},
+     *             @OA\Property(property="name", type="string", maxLength=255, example="En progreso"),
+     *             @OA\Property(property="position", type="integer", minimum=0, example=2, description="Posición de la lista (opcional, se calcula automáticamente si no se proporciona)")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Lista creada exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lista creada con éxito"),
+     *             @OA\Property(property="list", type="object",
+     *                 @OA\Property(property="id", type="integer", example=2),
+     *                 @OA\Property(property="name", type="string", example="En progreso"),
+     *                 @OA\Property(property="position", type="integer", example=2),
+     *                 @OA\Property(property="board_id", type="integer", example=1),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tablero no encontrado o sin acceso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $boardId
@@ -84,7 +203,67 @@ class BoardListController extends Controller
     }
 
     /**
-     * Display the specified list.
+     * Mostrar detalles de una lista específica.
+     *
+     * @OA\Get(
+     *     path="/api/v1/boards/{boardId}/lists/{id}",
+     *     summary="Obtener detalles de una lista",
+     *     description="Obtiene información completa de una lista específica incluyendo sus tarjetas",
+     *     operationId="getBoardList",
+     *     tags={"Listas"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="boardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del tablero",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la lista",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalles de la lista obtenidos exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lista recuperada con éxito"),
+     *             @OA\Property(property="list", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Por hacer"),
+     *                 @OA\Property(property="position", type="integer", example=1),
+     *                 @OA\Property(property="board_id", type="integer", example=1),
+     *                 @OA\Property(property="cards", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="title", type="string", example="Implementar login"),
+     *                         @OA\Property(property="description", type="string", example="Crear sistema de autenticación"),
+     *                         @OA\Property(property="position", type="integer", example=1),
+     *                         @OA\Property(property="due_date", type="string", format="date", nullable=true),
+     *                         @OA\Property(property="user_id", type="integer", example=1)
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tablero o lista no encontrada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  int  $boardId
      * @param  int  $id
@@ -116,7 +295,64 @@ class BoardListController extends Controller
     }
 
     /**
-     * Update the specified list in storage.
+     * Actualizar una lista existente.
+     *
+     * @OA\Put(
+     *     path="/api/v1/boards/{boardId}/lists/{id}",
+     *     summary="Actualizar lista",
+     *     description="Actualiza el nombre y/o posición de una lista existente",
+     *     operationId="updateBoardList",
+     *     tags={"Listas"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="boardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del tablero",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la lista a actualizar",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", maxLength=255, example="En revisión"),
+     *             @OA\Property(property="position", type="integer", minimum=0, example=3)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista actualizada exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lista actualizada con éxito"),
+     *             @OA\Property(property="list", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="En revisión"),
+     *                 @OA\Property(property="position", type="integer", example=3),
+     *                 @OA\Property(property="board_id", type="integer", example=1)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tablero o lista no encontrada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $boardId
@@ -179,7 +415,51 @@ class BoardListController extends Controller
     }
 
     /**
-     * Remove the specified list from storage.
+     * Eliminar una lista.
+     *
+     * @OA\Delete(
+     *     path="/api/v1/boards/{boardId}/lists/{id}",
+     *     summary="Eliminar lista",
+     *     description="Elimina una lista existente y reordena las posiciones de las listas restantes",
+     *     operationId="deleteBoardList",
+     *     tags={"Listas"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="boardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del tablero",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la lista a eliminar",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista eliminada exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lista eliminada con éxito")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tablero o lista no encontrada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  int  $boardId
      * @param  int  $id

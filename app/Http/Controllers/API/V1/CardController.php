@@ -8,10 +8,77 @@ use App\Models\Card;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @OA\PathItem(
+ *     path="/api/v1/lists/{listId}/cards"
+ * )
+ */
 class CardController extends Controller
 {
     /**
-     * Display a listing of the cards for a specific list.
+     * Listar todas las tarjetas de una lista.
+     *
+     * @OA\Get(
+     *     path="/api/v1/lists/{listId}/cards",
+     *     summary="Listar tarjetas de una lista",
+     *     description="Obtiene todas las tarjetas de una lista específica ordenadas por posición",
+     *     operationId="getListCards",
+     *     tags={"Tarjetas"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="listId",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la lista",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tarjetas obtenidas exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tarjetas recuperadas con éxito"),
+     *             @OA\Property(property="cards", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="title", type="string", example="Implementar login"),
+     *                     @OA\Property(property="description", type="string", example="Crear sistema de autenticación"),
+     *                     @OA\Property(property="position", type="integer", example=1),
+     *                     @OA\Property(property="due_date", type="string", format="date", nullable=true, example="2025-12-31"),
+     *                     @OA\Property(property="board_list_id", type="integer", example=1),
+     *                     @OA\Property(property="user_id", type="integer", example=1),
+     *                     @OA\Property(property="labels", type="array",
+     *                         @OA\Items(
+     *                             @OA\Property(property="id", type="integer", example=1),
+     *                             @OA\Property(property="name", type="string", example="Urgente"),
+     *                             @OA\Property(property="color", type="string", example="#FF0000")
+     *                         )
+     *                     ),
+     *                     @OA\Property(property="comments", type="array",
+     *                         @OA\Items(
+     *                             @OA\Property(property="id", type="integer", example=1),
+     *                             @OA\Property(property="content", type="string", example="Necesito ayuda con esto"),
+     *                             @OA\Property(property="created_at", type="string", format="date-time")
+     *                         )
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Lista no encontrada o sin acceso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lista no encontrada o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  int  $listId
      * @return \Illuminate\Http\JsonResponse
@@ -40,7 +107,84 @@ class CardController extends Controller
     }
 
     /**
-     * Store a newly created card in storage.
+     * Crear una nueva tarjeta en una lista.
+     *
+     * @OA\Post(
+     *     path="/api/v1/lists/{listId}/cards",
+     *     summary="Crear nueva tarjeta",
+     *     description="Crea una nueva tarjeta (tarea) en una lista específica",
+     *     operationId="createCard",
+     *     tags={"Tarjetas"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="listId",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la lista donde crear la tarjeta",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"title"},
+     *             @OA\Property(property="title", type="string", maxLength=255, example="Implementar sistema de notificaciones"),
+     *             @OA\Property(property="description", type="string", example="Crear sistema para enviar notificaciones por email"),
+     *             @OA\Property(property="position", type="integer", minimum=0, example=1, description="Posición de la tarjeta (opcional)"),
+     *             @OA\Property(property="due_date", type="string", format="date", example="2025-12-31", description="Fecha límite (opcional)"),
+     *             @OA\Property(property="label_ids", type="array", 
+     *                 @OA\Items(type="integer", example=1), 
+     *                 description="IDs de las etiquetas a asignar (opcional)"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Tarjeta creada exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tarjeta creada con éxito"),
+     *             @OA\Property(property="card", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="title", type="string", example="Implementar sistema de notificaciones"),
+     *                 @OA\Property(property="description", type="string", example="Crear sistema para enviar notificaciones por email"),
+     *                 @OA\Property(property="position", type="integer", example=1),
+     *                 @OA\Property(property="due_date", type="string", format="date", example="2025-12-31"),
+     *                 @OA\Property(property="board_list_id", type="integer", example=1),
+     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="labels", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="Backend"),
+     *                         @OA\Property(property="color", type="string", example="#FF6B6B")
+     *                     )
+     *                 ),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Lista no encontrada o sin acceso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lista no encontrada o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $listId
@@ -107,7 +251,77 @@ class CardController extends Controller
     }
 
     /**
-     * Display the specified card.
+     * Mostrar detalles de una tarjeta específica.
+     *
+     * @OA\Get(
+     *     path="/api/v1/cards/{id}",
+     *     summary="Obtener detalles de una tarjeta",
+     *     description="Obtiene información completa de una tarjeta incluyendo lista, etiquetas y comentarios",
+     *     operationId="getCard",
+     *     tags={"Tarjetas"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la tarjeta",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalles de la tarjeta obtenidos exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tarjeta recuperada con éxito"),
+     *             @OA\Property(property="card", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="title", type="string", example="Implementar login"),
+     *                 @OA\Property(property="description", type="string", example="Crear sistema de autenticación con JWT"),
+     *                 @OA\Property(property="position", type="integer", example=1),
+     *                 @OA\Property(property="due_date", type="string", format="date", example="2025-12-31"),
+     *                 @OA\Property(property="board_list_id", type="integer", example=1),
+     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="list", type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="Por hacer"),
+     *                     @OA\Property(property="position", type="integer", example=1)
+     *                 ),
+     *                 @OA\Property(property="labels", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="Urgente"),
+     *                         @OA\Property(property="color", type="string", example="#FF0000")
+     *                     )
+     *                 ),
+     *                 @OA\Property(property="comments", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="content", type="string", example="Necesito ayuda con la implementación"),
+     *                         @OA\Property(property="created_at", type="string", format="date-time"),
+     *                         @OA\Property(property="user", type="object",
+     *                             @OA\Property(property="id", type="integer", example=2),
+     *                             @OA\Property(property="name", type="string", example="María García"),
+     *                             @OA\Property(property="email", type="string", example="maria@example.com")
+     *                         )
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tarjeta no encontrada o sin acceso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tarjeta no encontrada o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
@@ -139,7 +353,84 @@ class CardController extends Controller
     }
 
     /**
-     * Update the specified card in storage.
+     * Actualizar una tarjeta existente.
+     *
+     * @OA\Put(
+     *     path="/api/v1/cards/{id}",
+     *     summary="Actualizar tarjeta",
+     *     description="Actualiza una tarjeta existente, permite cambiar título, descripción, posición, fecha límite, mover entre listas y asignar etiquetas",
+     *     operationId="updateCard",
+     *     tags={"Tarjetas"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la tarjeta a actualizar",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="title", type="string", maxLength=255, example="Implementar login con OAuth"),
+     *             @OA\Property(property="description", type="string", example="Actualizar el sistema de login para incluir OAuth"),
+     *             @OA\Property(property="position", type="integer", minimum=0, example=2),
+     *             @OA\Property(property="due_date", type="string", format="date", example="2025-11-15"),
+     *             @OA\Property(property="list_id", type="integer", example=2, description="ID de la lista de destino (para mover la tarjeta)"),
+     *             @OA\Property(property="label_ids", type="array", 
+     *                 @OA\Items(type="integer", example=1), 
+     *                 description="IDs de las etiquetas a asignar (reemplaza las existentes)"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tarjeta actualizada exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tarjeta actualizada con éxito"),
+     *             @OA\Property(property="card", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="title", type="string", example="Implementar login con OAuth"),
+     *                 @OA\Property(property="description", type="string", example="Actualizar el sistema de login para incluir OAuth"),
+     *                 @OA\Property(property="position", type="integer", example=2),
+     *                 @OA\Property(property="due_date", type="string", format="date", example="2025-11-15"),
+     *                 @OA\Property(property="board_list_id", type="integer", example=2),
+     *                 @OA\Property(property="list", type="object",
+     *                     @OA\Property(property="id", type="integer", example=2),
+     *                     @OA\Property(property="name", type="string", example="En progreso")
+     *                 ),
+     *                 @OA\Property(property="labels", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="Backend"),
+     *                         @OA\Property(property="color", type="string", example="#FF6B6B")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error en la solicitud (lista inválida, etc.)",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="La lista de destino no es válida o no pertenece al mismo tablero")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tarjeta no encontrada o sin acceso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tarjeta no encontrada o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -268,7 +559,44 @@ class CardController extends Controller
     }
 
     /**
-     * Remove the specified card from storage.
+     * Eliminar una tarjeta.
+     *
+     * @OA\Delete(
+     *     path="/api/v1/cards/{id}",
+     *     summary="Eliminar tarjeta",
+     *     description="Elimina una tarjeta existente y reordena las posiciones de las tarjetas restantes en la misma lista",
+     *     operationId="deleteCard",
+     *     tags={"Tarjetas"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la tarjeta a eliminar",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tarjeta eliminada exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tarjeta eliminada con éxito")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tarjeta no encontrada o sin acceso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tarjeta no encontrada o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse

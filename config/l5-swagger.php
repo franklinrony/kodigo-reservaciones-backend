@@ -13,7 +13,6 @@ return [
                  * Route for accessing api documentation interface
                  */
                 'api' => 'api/documentation',
-                'docs' => 'docs',
             ],
             'paths' => [
                 /*
@@ -35,11 +34,6 @@ return [
                  * File name of the generated YAML documentation file
                  */
                 'docs_yaml' => 'api-docs.yaml',
-                
-                /*
-                 * Absolute path to directory where to export views
-                 */
-                'views_path' => base_path('resources/views/vendor/l5-swagger'),
 
                 /*
                  * Set this to `json` or `yaml` to determine which documentation file to use in UI

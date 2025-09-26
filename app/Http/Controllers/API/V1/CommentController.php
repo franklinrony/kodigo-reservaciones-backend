@@ -9,10 +9,67 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @OA\PathItem(
+ *     path="/api/v1/cards/{cardId}/comments"
+ * )
+ */
 class CommentController extends Controller
 {
     /**
-     * Display a listing of the comments for a card.
+     * Listar todos los comentarios de una tarjeta.
+     *
+     * @OA\Get(
+     *     path="/api/v1/cards/{cardId}/comments",
+     *     summary="Listar comentarios de una tarjeta",
+     *     description="Obtiene todos los comentarios de una tarjeta específica ordenados por fecha de creación (más recientes primero)",
+     *     operationId="getCardComments",
+     *     tags={"Comentarios"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="cardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la tarjeta",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Comentarios obtenidos exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Comentarios recuperados con éxito"),
+     *             @OA\Property(property="comments", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="content", type="string", example="Este es un comentario importante sobre la tarea"),
+     *                     @OA\Property(property="card_id", type="integer", example=1),
+     *                     @OA\Property(property="user_id", type="integer", example=1),
+     *                     @OA\Property(property="created_at", type="string", format="date-time"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time"),
+     *                     @OA\Property(property="user", type="object",
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="Juan Pérez"),
+     *                         @OA\Property(property="email", type="string", example="juan@example.com")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tarjeta no encontrada o sin acceso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tarjeta no encontrada o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  int  $cardId
      * @return \Illuminate\Http\JsonResponse
@@ -39,7 +96,72 @@ class CommentController extends Controller
     }
 
     /**
-     * Store a newly created comment in storage.
+     * Crear un nuevo comentario en una tarjeta.
+     *
+     * @OA\Post(
+     *     path="/api/v1/cards/{cardId}/comments",
+     *     summary="Crear nuevo comentario",
+     *     description="Añade un nuevo comentario a una tarjeta específica",
+     *     operationId="createComment",
+     *     tags={"Comentarios"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="cardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la tarjeta donde añadir el comentario",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"content"},
+     *             @OA\Property(property="content", type="string", example="Este es un comentario importante sobre la implementación")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Comentario creado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Comentario añadido con éxito"),
+     *             @OA\Property(property="comment", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="content", type="string", example="Este es un comentario importante sobre la implementación"),
+     *                 @OA\Property(property="card_id", type="integer", example=1),
+     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time"),
+     *                 @OA\Property(property="user", type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="Juan Pérez"),
+     *                     @OA\Property(property="email", type="string", example="juan@example.com")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tarjeta no encontrada o sin acceso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tarjeta no encontrada o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $cardId
@@ -76,7 +198,57 @@ class CommentController extends Controller
     }
 
     /**
-     * Display the specified comment.
+     * Mostrar detalles de un comentario específico.
+     *
+     * @OA\Get(
+     *     path="/api/v1/comments/{id}",
+     *     summary="Obtener detalles de un comentario",
+     *     description="Obtiene información completa de un comentario específico incluyendo información del autor",
+     *     operationId="getComment",
+     *     tags={"Comentarios"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del comentario",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalles del comentario obtenidos exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Comentario recuperado con éxito"),
+     *             @OA\Property(property="comment", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="content", type="string", example="Este es un comentario importante sobre la implementación"),
+     *                 @OA\Property(property="card_id", type="integer", example=1),
+     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time"),
+     *                 @OA\Property(property="user", type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="Juan Pérez"),
+     *                     @OA\Property(property="email", type="string", example="juan@example.com")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Comentario no encontrado o sin acceso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Comentario no encontrado o sin acceso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
@@ -101,7 +273,70 @@ class CommentController extends Controller
     }
 
     /**
-     * Update the specified comment in storage.
+     * Actualizar un comentario existente.
+     *
+     * @OA\Put(
+     *     path="/api/v1/comments/{id}",
+     *     summary="Actualizar comentario",
+     *     description="Actualiza el contenido de un comentario existente (solo el autor puede hacerlo)",
+     *     operationId="updateComment",
+     *     tags={"Comentarios"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del comentario a actualizar",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"content"},
+     *             @OA\Property(property="content", type="string", example="Comentario actualizado con nueva información")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Comentario actualizado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Comentario actualizado con éxito"),
+     *             @OA\Property(property="comment", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="content", type="string", example="Comentario actualizado con nueva información"),
+     *                 @OA\Property(property="card_id", type="integer", example=1),
+     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="user", type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="Juan Pérez"),
+     *                     @OA\Property(property="email", type="string", example="juan@example.com")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Comentario no encontrado, sin acceso o no eres el autor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Comentario no encontrado, sin acceso o no eres el autor")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -134,7 +369,44 @@ class CommentController extends Controller
     }
 
     /**
-     * Remove the specified comment from storage.
+     * Eliminar un comentario.
+     *
+     * @OA\Delete(
+     *     path="/api/v1/comments/{id}",
+     *     summary="Eliminar comentario",
+     *     description="Elimina un comentario existente (solo el autor o administradores pueden hacerlo)",
+     *     operationId="deleteComment",
+     *     tags={"Comentarios"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del comentario a eliminar",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Comentario eliminado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Comentario eliminado con éxito")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Comentario no encontrado, sin acceso o no eres el autor/administrador",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Comentario no encontrado, sin acceso o no eres el autor")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      *
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse

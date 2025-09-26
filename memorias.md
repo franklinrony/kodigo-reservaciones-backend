@@ -413,3 +413,416 @@ postman collection run auth_test_collection.json -i "Get Boards No Auth" --repor
 ```
 
 Este enfoque sistemático para diagnosticar y resolver problemas de rutas API en Laravel puede aplicarse a problemas similares en el futuro.
+
+## Tarea: Instalar y configurar documentación Swagger/OpenAPI para la API Kanban
+
+### Contexto del problema
+La API Kanban carecía de documentación interactiva y estandarizada. Los desarrolladores frontend y otros consumidores de la API no tenían una forma fácil de entender los endpoints disponibles, sus parámetros, respuestas y ejemplos de uso. Se necesitaba implementar una solución de documentación automática que se mantuviera sincronizada con el código.
+
+### Solución implementada
+Se instaló y configuró el paquete `darkaonline/l5-swagger` para Laravel, que genera documentación OpenAPI/Swagger automáticamente a partir de anotaciones en el código PHP.
+
+### Pasos de instalación y configuración
+
+#### 1. Instalación del paquete
+```bash
+composer require "darkaonline/l5-swagger"
+```
+**Resultado esperado**: El paquete se instala junto con sus dependencias (`zircote/swagger-php`, `swagger-api/swagger-ui`, etc.)
+
+#### 2. Publicación de la configuración
+```bash
+php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
+```
+**Archivos generados**:
+- `config/l5-swagger.php` - Archivo de configuración
+- `resources/views/vendor/l5-swagger` - Vistas del UI de Swagger
+
+#### 3. Configuración del Controller base
+Se actualizó `app/Http/Controllers/Controller.php` para incluir:
+- Las traits estándar de Laravel (`AuthorizesRequests`, `DispatchesJobs`, `ValidatesRequests`)
+- La anotación `@OA\Info` con información general de la API
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+/**
+ * @OA\Info(title="Kanban API", version="1.0")
+ */
+class Controller extends BaseController
+{
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+}
+```
+
+#### 4. Agregado de anotaciones OpenAPI iniciales
+Se agregó una anotación `@OA\PathItem` al `AuthController` y anotaciones detalladas al método `register`:
+
+```php
+/**
+ * @OA\PathItem(
+ *     path="/api/auth/register"
+ * )
+ */
+class AuthController extends Controller
+{
+    /**
+     * @OA\Post(
+     *     path="/api/auth/register",
+     *     summary="Register a new user",
+     *     description="Creates a new user account and returns a JWT token",
+     *     operationId="registerUser",
+     *     tags={"Authentication"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name","email","password","password_confirmation"},
+     *             @OA\Property(property="name", type="string", example="John Doe"),
+     *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password123"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="User registered successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Usuario registrado exitosamente"),
+     *             @OA\Property(property="user", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="John Doe"),
+     *                 @OA\Property(property="email", type="string", example="john@example.com")
+     *             ),
+     *             @OA\Property(property="token", type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."),
+     *             @OA\Property(property="token_type", type="string", example="bearer"),
+     *             @OA\Property(property="expires_in", type="integer", example=3600)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     )
+     * )
+     */
+    public function register(Request $request)
+    {
+        // ... implementación del método
+    }
+}
+```
+
+#### 5. Generación de la documentación
+```bash
+php artisan l5-swagger:generate
+```
+**Archivos generados**:
+- `storage/api-docs/api-docs.json` - Documentación en formato JSON
+- `storage/api-docs/api-docs.yaml` - Documentación en formato YAML (opcional)
+
+### Configuración del l5-swagger
+
+**Archivo**: `config/l5-swagger.php`
+
+**Configuraciones importantes**:
+```php
+'default' => 'default',
+'documentations' => [
+    'default' => [
+        'api' => [
+            'title' => 'L5 Swagger UI',
+        ],
+        'routes' => [
+            'api' => 'api/documentation',  // URL del UI de Swagger
+        ],
+        'paths' => [
+            'docs_json' => 'api-docs.json',  // Nombre del archivo JSON
+            'docs_yaml' => 'api-docs.yaml',  // Nombre del archivo YAML
+            'annotations' => [
+                base_path('app'),  // Directorio donde buscar anotaciones
+            ],
+        ],
+    ],
+],
+```
+
+### URLs de acceso a la documentación
+
+1. **Interfaz Swagger UI**: `http://localhost:8000/api/documentation`
+2. **JSON de la API**: `http://localhost:8000/docs`
+3. **Archivo JSON generado**: `storage/api-docs/api-docs.json`
+
+### Problemas encontrados y soluciones
+
+#### Problema 1: Error "Required @OA\PathItem() not found"
+**Síntoma**: El comando `php artisan l5-swagger:generate` fallaba con el error "Required @OA\PathItem() not found"
+**Causa**: Swagger requiere al menos una anotación `@OA\PathItem` para generar documentación válida
+**Solución**: Agregar la anotación `@OA\PathItem` al `AuthController` antes de generar la documentación
+
+#### Problema 2: Error de referencia a esquema no definido
+**Síntoma**: Error "$ref "#/components/schemas/User" not found"
+**Causa**: Se intentó referenciar un esquema "User" que no estaba definido
+**Solución**: Definir las propiedades del usuario inline en lugar de usar referencias a esquemas no existentes
+
+### Estructura de anotaciones OpenAPI recomendada
+
+Para documentar correctamente cada endpoint, usar la siguiente estructura:
+
+```php
+/**
+ * @OA\[Método](
+ *     path="/ruta/del/endpoint",
+ *     summary="Breve descripción",
+ *     description="Descripción detallada",
+ *     operationId="identificadorUnico",
+ *     tags={"Categoría"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"campo1","campo2"},
+ *             @OA\Property(property="campo1", type="string", example="valor"),
+ *             // ... más propiedades
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Respuesta exitosa",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="data", type="object"),
+ *             // ... propiedades de respuesta
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="No autorizado"
+ *     ),
+ *     security={{"bearerAuth":{}}}
+ * )
+ */
+```
+
+### Comandos útiles para gestión de Swagger
+
+```bash
+# Generar documentación
+php artisan l5-swagger:generate
+
+# Generar con verbose para debugging
+php artisan l5-swagger:generate --verbose
+
+# Limpiar caché de configuración
+php artisan config:clear
+
+# Verificar rutas registradas
+php artisan route:list | grep swagger
+```
+
+### Próximos pasos recomendados
+
+1. **Documentar todos los endpoints**: Agregar anotaciones OpenAPI a todos los controladores (`BoardController`, `CardController`, `LabelController`, `CommentController`)
+
+2. **Definir esquemas reutilizables**: Crear esquemas para modelos comunes (User, Board, Card, etc.) usando `@OA\Schema` para evitar duplicación
+
+3. **Configurar autenticación en Swagger**: Agregar configuración de seguridad JWT en `config/l5-swagger.php` para permitir probar endpoints autenticados desde el UI
+
+4. **Automatizar generación**: Configurar la regeneración automática de documentación en desarrollo agregando `'generate_always' => env('L5_SWAGGER_GENERATE_ALWAYS', true)` en el entorno de desarrollo
+
+### Lecciones aprendidas y mejores prácticas
+
+1. **Consistencia en anotaciones**: Mantener un formato consistente en todas las anotaciones OpenAPI
+2. **Validación antes de generar**: Siempre verificar que existan al menos las anotaciones mínimas requeridas
+3. **Documentación como código**: Tratar la documentación como parte integral del código, manteniéndola actualizada
+4. **Testing de documentación**: Verificar que la documentación generada sea funcional y completa
+5. **Versionamiento**: Considerar el versionamiento de la documentación cuando se realicen cambios breaking
+
+### Archivos modificados
+- `composer.json` - Agregada dependencia `darkaonline/l5-swagger`
+- `config/l5-swagger.php` - Archivo de configuración generado
+- `app/Http/Controllers/Controller.php` - Agregadas traits y anotación `@OA\Info`
+- `app/Http/Controllers/API/AuthController.php` - Agregadas anotaciones OpenAPI iniciales
+- `storage/api-docs/api-docs.json` - Documentación generada automáticamente
+
+Esta implementación proporciona una base sólida para la documentación de la API Kanban, facilitando el desarrollo frontend y la integración con otros sistemas.
+
+## Tarea: Completar documentación Swagger/OpenAPI para todos los controladores de la API Kanban
+
+### Contexto del problema
+Después de implementar la documentación básica de Swagger para la API Kanban, era necesario completar la documentación de todos los endpoints disponibles en los controladores restantes. Los controladores `BoardController`, `BoardListController`, `CardController`, `LabelController`, `CommentController` y `AdminController` carecían de anotaciones OpenAPI, lo que limitaba la utilidad de la documentación generada.
+
+### Solución implementada
+Se agregaron anotaciones OpenAPI completas en español a todos los métodos públicos de los controladores restantes, siguiendo el patrón establecido y proporcionando documentación detallada para cada endpoint.
+
+### Controladores documentados
+
+#### 1. BoardController - Gestión de Tableros
+**Anotaciones agregadas:**
+- `@OA\PathItem` para definir la ruta base `/api/v1/boards`
+- Documentación completa para todos los métodos:
+  - `index`: Listar tableros del usuario (propios y como colaborador)
+  - `store`: Crear nuevo tablero
+  - `show`: Obtener detalles completos de un tablero
+  - `update`: Actualizar información del tablero (solo propietario)
+  - `destroy`: Eliminar tablero (solo propietario)
+  - `addCollaborator`: Añadir colaborador al tablero
+  - `removeCollaborator`: Eliminar colaborador del tablero
+
+**Características destacadas:**
+- Documentación de respuestas anidadas complejas (tableros con listas, tarjetas, colaboradores, etiquetas)
+- Validación de permisos (propietario vs colaborador)
+- Manejo de errores específicos (403 para acceso denegado)
+
+#### 2. BoardListController - Gestión de Listas
+**Anotaciones agregadas:**
+- `@OA\PathItem` para definir la ruta base `/api/v1/boards/{boardId}/lists`
+- Documentación completa para métodos CRUD:
+  - `index`: Listar listas de un tablero ordenadas por posición
+  - `store`: Crear nueva lista con manejo automático de posiciones
+  - `show`: Obtener detalles de una lista con sus tarjetas
+  - `update`: Actualizar nombre y posición de lista
+  - `destroy`: Eliminar lista y reordenar posiciones restantes
+
+**Características destacadas:**
+- Documentación de lógica de posiciones (reordenamiento automático)
+- Validación de acceso al tablero padre
+- Ejemplos detallados de estructuras de respuesta
+
+#### 3. CardController - Gestión de Tarjetas
+**Anotaciones agregadas:**
+- `@OA\PathItem` para definir la ruta base `/api/v1/lists/{listId}/cards`
+- Documentación completa para operaciones complejas:
+  - `index`: Listar tarjetas de una lista con etiquetas y comentarios
+  - `store`: Crear nueva tarjeta con asignación opcional de etiquetas
+  - `show`: Obtener detalles completos de tarjeta con todas las relaciones
+  - `update`: Actualizar tarjeta con posibilidad de mover entre listas
+  - `destroy`: Eliminar tarjeta y reordenar posiciones
+
+**Características destacadas:**
+- Documentación de movimiento entre listas (cambio de `list_id`)
+- Manejo de asignación múltiple de etiquetas
+- Lógica compleja de reordenamiento de posiciones
+- Validación de permisos de tablero
+
+#### 4. LabelController - Gestión de Etiquetas
+**Anotaciones agregadas:**
+- `@OA\PathItem` para definir la ruta base `/api/v1/boards/{boardId}/labels`
+- Documentación completa para métodos CRUD:
+  - `index`: Listar etiquetas disponibles en un tablero
+  - `store`: Crear nueva etiqueta con nombre y color
+  - `show`: Obtener detalles de una etiqueta específica
+  - `update`: Actualizar nombre y/o color de etiqueta
+  - `destroy`: Eliminar etiqueta (se remueve automáticamente de tarjetas)
+
+**Características destacadas:**
+- Validación de formato de color hexadecimal
+- Documentación de eliminación en cascada automática
+- Ejemplos de colores en formato `#RRGGBB`
+
+#### 5. CommentController - Gestión de Comentarios
+**Anotaciones agregadas:**
+- `@OA\PathItem` para definir la ruta base `/api/v1/cards/{cardId}/comments`
+- Documentación completa para gestión de comentarios:
+  - `index`: Listar comentarios de una tarjeta ordenados por fecha
+  - `store`: Crear nuevo comentario en una tarjeta
+  - `show`: Obtener detalles de un comentario específico
+  - `update`: Actualizar comentario (solo el autor)
+  - `destroy`: Eliminar comentario (autor o administradores)
+
+**Características destacadas:**
+- Control de permisos diferenciado (autor vs administrador)
+- Documentación de relaciones con usuarios
+- Ordenamiento automático por fecha de creación
+
+#### 6. AdminController - Funciones de Administración
+**Anotaciones agregadas:**
+- `@OA\PathItem` para definir la ruta base `/api/v1/admin/dashboard`
+- Documentación para dashboard administrativo:
+  - `dashboard`: Obtener estadísticas generales del sistema
+
+**Características destacadas:**
+- Restricción de acceso solo para administradores
+- Estadísticas de usuarios por roles
+- Información básica para dashboard
+
+### Estructura de anotaciones OpenAPI implementada
+
+Cada método documentado incluye:
+
+```php
+/**
+ * @OA\[Método](
+ *     path="/ruta/del/endpoint",
+ *     summary="Resumen breve en español",
+ *     description="Descripción detallada en español",
+ *     operationId="identificadorUnico",
+ *     tags={"Categoría"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\Parameter(...), // Parámetros de ruta/query
+ *     @OA\RequestBody(...), // Cuerpo de la petición
+ *     @OA\Response(...), // Respuestas exitosas y de error
+ * )
+ */
+```
+
+### Categorización por tags
+
+Los endpoints se organizaron en las siguientes categorías:
+- **Tableros**: Gestión completa de tableros Kanban
+- **Listas**: Gestión de columnas/listas dentro de tableros
+- **Tarjetas**: Gestión de tareas individuales
+- **Etiquetas**: Gestión de categorías y colores para tarjetas
+- **Comentarios**: Sistema de comentarios en tarjetas
+- **Administración**: Funciones exclusivas para administradores
+- **Autenticación**: Gestión de usuarios y tokens JWT (ya documentado)
+
+### Características técnicas documentadas
+
+1. **Autenticación JWT**: Todos los endpoints requieren token Bearer
+2. **Control de acceso**: Diferenciación entre propietario, colaborador y administrador
+3. **Validación de datos**: Reglas de validación detalladas con ejemplos
+4. **Manejo de posiciones**: Lógica de reordenamiento automático
+5. **Relaciones complejas**: Documentación de respuestas anidadas
+6. **Códigos de estado HTTP**: Respuestas específicas para diferentes escenarios
+
+### Verificación y testing
+
+Después de agregar todas las anotaciones:
+1. Se ejecutó `php artisan l5-swagger:generate` exitosamente
+2. La documentación se generó sin errores
+3. Todos los endpoints aparecen correctamente en la interfaz Swagger UI
+4. Las respuestas de ejemplo coinciden con la estructura real de la API
+
+### Beneficios obtenidos
+
+1. **Documentación completa**: Toda la API Kanban está ahora completamente documentada
+2. **Facilitación del desarrollo**: Los desarrolladores frontend pueden entender fácilmente todos los endpoints
+3. **Testing integrado**: La interfaz Swagger permite probar los endpoints directamente
+4. **Mantenimiento simplificado**: Las anotaciones se mantienen sincronizadas con el código
+5. **Integración con herramientas**: Compatible con Postman, Insomnia y otras herramientas de API
+
+### Archivos modificados
+- `app/Http/Controllers/API/V1/BoardController.php` - Agregadas anotaciones completas
+- `app/Http/Controllers/API/V1/BoardListController.php` - Agregadas anotaciones completas
+- `app/Http/Controllers/API/V1/CardController.php` - Agregadas anotaciones completas
+- `app/Http/Controllers/API/V1/LabelController.php` - Agregadas anotaciones completas
+- `app/Http/Controllers/API/V1/CommentController.php` - Agregadas anotaciones completas
+- `app/Http/Controllers/API/V1/AdminController.php` - Agregadas anotaciones completas
+- `storage/api-docs/api-docs.json` - Documentación generada automáticamente
+
+### Próximos pasos recomendados
+
+1. **Configurar esquemas reutilizables**: Crear esquemas OpenAPI para modelos comunes (User, Board, Card) para reducir duplicación
+2. **Añadir ejemplos reales**: Incluir más ejemplos de uso real en las anotaciones
+3. **Documentar webhooks**: Si se implementan, documentar los webhooks disponibles
+4. **Versionado de documentación**: Considerar estrategias para manejar cambios breaking
+5. **Automatizar publicación**: Configurar CI/CD para publicar documentación automáticamente
+
+Esta documentación completa transforma la API Kanban en una API profesional y fácilmente consumible, facilitando significativamente el desarrollo de aplicaciones cliente y la integración con sistemas externos.
