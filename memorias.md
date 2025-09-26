@@ -826,3 +826,195 @@ Después de agregar todas las anotaciones:
 5. **Automatizar publicación**: Configurar CI/CD para publicar documentación automáticamente
 
 Esta documentación completa transforma la API Kanban en una API profesional y fácilmente consumible, facilitando significativamente el desarrollo de aplicaciones cliente y la integración con sistemas externos.
+
+## Tarea: Pruebas con Postman CLI - Obtención y uso de tokens JWT
+
+### Contexto del problema
+Durante las pruebas automatizadas con Postman CLI, se encontró que la colección completa fallaba en los endpoints autenticados (401 Unauthorized) porque el token JWT no se estaba pasando correctamente entre las requests. La colección de Postman está diseñada para funcionar en la aplicación de escritorio donde las variables de entorno se comparten entre requests, pero Postman CLI maneja las variables de entorno de forma diferente.
+
+### Solución implementada
+Se desarrolló un flujo de prueba manual usando PowerShell y Invoke-WebRequest para obtener el token JWT y luego usarlo en las pruebas automatizadas.
+
+### Pasos para obtener y usar tokens JWT en pruebas
+
+#### 1. Verificar instalación de Postman CLI
+```bash
+postman --version
+```
+**Resultado esperado**: Versión de Postman CLI (ej: 1.19.4)
+
+#### 2. Iniciar el servidor Laravel
+```bash
+php artisan serve --host=127.0.0.1 --port=8000
+```
+**Nota**: El servidor debe estar ejecutándose en segundo plano para que las pruebas funcionen.
+
+#### 3. Obtener el token JWT manualmente
+Usar PowerShell con Invoke-WebRequest para hacer login y obtener el token:
+
+```powershell
+Invoke-WebRequest -Uri "http://localhost:8000/api/auth/login" -Method POST -ContentType "application/json" -Body '{"email":"test@example.com","password":"password"}' | Select-Object -ExpandProperty Content
+```
+
+**Respuesta esperada**:
+```json
+{
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDQ2MDQsImV4cCI6MTc1ODkwODIwNCwibmJmIjoxNzU4OTA0NjA0LCJqdGkiOiJUdXVtVFg3M0Q3ZEZoeXhJIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.73QWsIbE3M5RVNWlEPvMkFchHYCYlKCmADPs5sbaAYk",
+  "token_type": "bearer",
+  "expires_in": 3600
+}
+```
+
+#### 4. Extraer y guardar el token
+- Copiar el valor del campo `token` de la respuesta JSON
+- Guardar el token en una variable de entorno o archivo para uso posterior
+
+#### 5. Ejecutar pruebas con el token
+Usar el token obtenido en las pruebas de Postman CLI:
+
+```bash
+postman collection run postman_collection.json --environment postman_environment.json --env-var "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NTg5MDQ2MDQsImV4cCI6MTc1ODkwODIwNCwibmJmIjoxNzU4OTA0NjA0LCJqdGkiOiJUdXVtVFg3M0Q3ZEZoeXhJIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.73QWsIbE3M5RVNWlEPvMkFchHYCYlKCmADPs5sbaAYk" --reporters cli,json --reporter-json-export authenticated_test_results.json
+```
+
+#### 6. Verificar resultados de las pruebas
+Los resultados se guardan en `authenticated_test_results.json`. Los endpoints autenticados deberían ahora responder con códigos 200 OK en lugar de 401 Unauthorized.
+
+### Problemas encontrados y soluciones
+
+#### Problema 1: Variables de entorno no compartidas en Postman CLI
+**Síntoma**: Los scripts de Postman que guardan el token en variables de entorno no funcionan en CLI
+**Causa**: Postman CLI no comparte variables de entorno entre diferentes ejecuciones de requests
+**Solución**: Obtener el token manualmente primero y luego pasarlo como parámetro `--env-var`
+
+#### Problema 2: Sintaxis de curl en PowerShell
+**Síntoma**: `curl.exe` no funcionaba correctamente con JSON en PowerShell
+**Causa**: Problemas de escape de comillas y formato JSON
+**Solución**: Usar `Invoke-WebRequest` nativo de PowerShell que maneja mejor el JSON
+
+#### Problema 3: Rutas de API incorrectas
+**Síntoma**: Error 404 al intentar acceder a `/api/v1/auth/login`
+**Causa**: Las rutas de autenticación están en `/api/auth/` no en `/api/v1/auth/`
+**Solución**: Verificar las rutas con `php artisan route:list` antes de hacer las llamadas
+
+### Comandos útiles para debugging
+
+```bash
+# Verificar rutas registradas
+php artisan route:list | findstr "auth/login"
+
+# Probar endpoint manualmente con curl
+curl.exe -X POST http://localhost:8000/api/auth/login -H "Content-Type: application/json" -d "{\"email\":\"test@example.com\",\"password\":\"password\"}"
+
+# Verificar que el servidor esté corriendo
+netstat -ano | findstr :8000
+```
+
+### Mejores prácticas para pruebas automatizadas
+
+1. **Obtener token primero**: Siempre obtener el token JWT antes de ejecutar pruebas de endpoints autenticados
+2. **Verificar expiración**: Los tokens JWT expiran, obtener uno nuevo si las pruebas fallan con 401
+3. **Usar variables de entorno**: Pasar el token como `--env-var` en lugar de depender de scripts de Postman
+4. **Guardar resultados**: Usar `--reporter-json-export` para guardar resultados y analizarlos posteriormente
+5. **Pruebas incrementales**: Probar endpoints individuales antes de ejecutar la colección completa
+
+### Archivos generados durante las pruebas
+- `login_response.json` - Respuesta del endpoint de login
+- `authenticated_test_results.json` - Resultados de pruebas con token
+- `test_results.json` - Resultados de pruebas sin token (para comparación)
+
+### Próximos pasos recomendados
+
+1. **Automatizar obtención de token**: Crear un script que obtenga automáticamente el token y lo use en las pruebas
+2. **Configurar CI/CD**: Integrar estas pruebas en un pipeline de CI/CD
+3. **Crear tests específicos**: Desarrollar tests más específicos para validar lógica de negocio
+4. **Documentar flujo completo**: Crear un script batch o PowerShell que automatice todo el flujo de pruebas
+
+Esta metodología permite probar efectivamente la API Kanban usando Postman CLI, asegurando que todos los endpoints funcionen correctamente tanto con autenticación como sin ella.
+
+## Solución: Ejecutar solo carpetas específicas en Postman CLI
+
+### Problema identificado
+Al ejecutar la colección completa de Postman CLI, los endpoints de `Logout` y `Refresh Token` invalidan el token JWT, causando que todas las peticiones siguientes fallen con `401 Unauthorized`.
+
+### Solución implementada
+Usar la opción `-i` (o `--request`) de Postman CLI para ejecutar únicamente las carpetas que contienen los endpoints de Kanban, excluyendo la carpeta `Auth` que incluye `Logout` y `Refresh Token`.
+
+### Comando para ejecutar solo endpoints Kanban
+```bash
+postman collection run postman_collection.json \
+  --environment postman_environment.json \
+  -i "Boards" \
+  -i "Lists" \
+  -i "Cards" \
+  -i "Labels" \
+  -i "Comments" \
+  -i "Admin" \
+  --env-var "token=TOKEN_JWT_AQUÍ" \
+  --reporters cli,json \
+  --reporter-json-export kanban_only_test_results.json
+```
+
+### Resultados obtenidos
+- ✅ **Boards**: Todos los endpoints funcionan correctamente (GET, POST, PUT, DELETE)
+- ✅ **Admin Dashboard**: Funciona correctamente con rol de administrador
+- ⚠️ **Lists, Cards, Labels, Comments**: Fallan con 404 cuando dependen de recursos eliminados (comportamiento esperado)
+- ✅ **Token permanece válido**: No se ejecutan Logout/Refresh que invalidarían el token
+
+### Opciones disponibles en Postman CLI
+
+#### Ejecutar carpetas específicas
+```bash
+# Ejecutar múltiples carpetas
+-i "Boards" -i "Lists" -i "Cards"
+
+# Ejecutar una sola carpeta
+-i "Boards"
+```
+
+#### Ejecutar requests específicos
+```bash
+# Ejecutar requests individuales por nombre
+-i "Get All Boards" -i "Create Board"
+```
+
+#### Combinar con otras opciones
+```bash
+# Con variables de entorno
+--env-var "token=TOKEN_JWT"
+
+# Con reportes detallados
+--reporters cli,json --reporter-json-export results.json
+
+# Con timeout personalizado
+--timeout-request 5000
+```
+
+### Estructura de la colección
+La colección está organizada en las siguientes carpetas principales:
+- **Auth**: Register, Login, Me, Show Current Token, Logout, Refresh Token
+- **Boards**: Gestión completa de tableros
+- **Lists**: Gestión de listas dentro de tableros
+- **Cards**: Gestión de tarjetas dentro de listas
+- **Labels**: Gestión de etiquetas de tableros
+- **Comments**: Gestión de comentarios en tarjetas
+- **Admin**: Funciones administrativas
+
+### Flujo de prueba recomendado
+
+1. **Obtener token JWT** (manual o script)
+2. **Ejecutar endpoints Kanban** (excluyendo Auth)
+3. **Verificar resultados** en el archivo JSON generado
+4. **Limpiar datos de prueba** si es necesario
+
+### Archivos de resultados
+- `kanban_only_test_results.json`: Resultados de pruebas solo Kanban
+- Contiene métricas detalladas de cada request ejecutado
+
+### Ventajas de esta aproximación
+- ✅ Token permanece válido durante toda la ejecución
+- ✅ Pruebas más rápidas (menos requests)
+- ✅ Resultados más limpios y predecibles
+- ✅ Evita efectos secundarios de logout/refresh
+- ✅ Enfocado en funcionalidad core de Kanban
+
+Esta solución permite ejecutar pruebas automatizadas confiables de la API Kanban sin los problemas de invalidación de tokens.

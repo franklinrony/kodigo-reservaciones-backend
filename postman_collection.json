@@ -1,7 +1,7 @@
 {
     "info": {
-        "name": "Kodigo Kanban API",
-        "description": "Colección actualizada de endpoints para el backend de la aplicación Kanban",
+        "name": "Kodigo Kanban API - Actualizada",
+        "description": "Colección completa y actualizada de endpoints para el backend de la aplicación Kanban con payloads correctos",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [
@@ -44,9 +44,14 @@
                             "script": {
                                 "exec": [
                                     "var jsonData = pm.response.json();",
-                                    "if (jsonData.access_token) {",
-                                    "    pm.environment.set('token', jsonData.access_token);",
-                                    "}"
+                                    "if (jsonData.token) {",
+                                    "    pm.environment.set('token', jsonData.token);",
+                                    "    console.log('Token JWT guardado automáticamente en variable de entorno');",
+                                    "}",
+                                    "pm.test('Login exitoso', function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "    pm.expect(jsonData).to.have.property('token');",
+                                    "});"
                                 ],
                                 "type": "text/javascript"
                             }
@@ -101,6 +106,20 @@
                     "response": []
                 },
                 {
+                    "name": "Show Current Token",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "https://httpbin.org/get",
+                            "host": ["https://httpbin.org"],
+                            "path": ["get"]
+                        },
+                        "description": "Muestra el token JWT actual guardado en las variables de entorno (no hace llamada real a la API)"
+                    },
+                    "response": []
+                },
+                {
                     "name": "Logout",
                     "request": {
                         "method": "POST",
@@ -149,37 +168,8 @@
             ]
         },
         {
-            "name": "Admin",
-            "description": "Endpoints para administradores",
-            "item": [
-                {
-                    "name": "Admin Dashboard",
-                    "request": {
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "value": "Bearer {{token}}"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/admin/dashboard",
-                            "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "admin", "dashboard"]
-                        },
-                        "description": "Obtiene información del panel de administración"
-                    },
-                    "response": []
-                }
-            ]
-        },
-        {
             "name": "Boards",
-            "description": "Endpoints de tableros Kanban",
+            "description": "Endpoints de gestión de tableros Kanban",
             "item": [
                 {
                     "name": "Get All Boards",
@@ -200,7 +190,7 @@
                             "host": ["{{base_url}}"],
                             "path": ["api", "v1", "boards"]
                         },
-                        "description": "Obtiene todos los tableros del usuario"
+                        "description": "Obtiene todos los tableros del usuario (propios y como colaborador)"
                     },
                     "response": []
                 },
@@ -250,9 +240,9 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/v1/boards/1",
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}",
                             "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "boards", "1"]
+                            "path": ["api", "v1", "boards", "{{board_id}}"]
                         },
                         "description": "Obtiene un tablero específico con sus listas, tarjetas y etiquetas"
                     },
@@ -281,11 +271,11 @@
                             "raw": "{\n    \"name\": \"Tablero Actualizado\",\n    \"description\": \"Nueva descripción del tablero\",\n    \"is_public\": true\n}"
                         },
                         "url": {
-                            "raw": "{{base_url}}/api/v1/boards/1",
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}",
                             "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "boards", "1"]
+                            "path": ["api", "v1", "boards", "{{board_id}}"]
                         },
-                        "description": "Actualiza un tablero existente"
+                        "description": "Actualiza un tablero existente (solo propietario)"
                     },
                     "response": []
                 },
@@ -304,11 +294,65 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/v1/boards/1",
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}",
                             "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "boards", "1"]
+                            "path": ["api", "v1", "boards", "{{board_id}}"]
                         },
-                        "description": "Elimina un tablero"
+                        "description": "Elimina un tablero (solo propietario)"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Add Collaborator",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"colaborador@example.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}/collaborators",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "boards", "{{board_id}}", "collaborators"]
+                        },
+                        "description": "Añade un colaborador al tablero (solo propietario)"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove Collaborator",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}/collaborators/{{user_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "boards", "{{board_id}}", "collaborators", "{{user_id}}"]
+                        },
+                        "description": "Elimina un colaborador del tablero (solo propietario)"
                     },
                     "response": []
                 }
@@ -316,7 +360,7 @@
         },
         {
             "name": "Lists",
-            "description": "Endpoints de listas de tableros",
+            "description": "Endpoints de gestión de listas dentro de tableros",
             "item": [
                 {
                     "name": "Get Lists",
@@ -333,11 +377,11 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/v1/boards/1/lists",
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}/lists",
                             "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "boards", "1", "lists"]
+                            "path": ["api", "v1", "boards", "{{board_id}}", "lists"]
                         },
-                        "description": "Obtiene todas las listas de un tablero"
+                        "description": "Obtiene todas las listas de un tablero ordenadas por posición"
                     },
                     "response": []
                 },
@@ -364,11 +408,88 @@
                             "raw": "{\n    \"name\": \"Por hacer\",\n    \"position\": 0\n}"
                         },
                         "url": {
-                            "raw": "{{base_url}}/api/v1/boards/1/lists",
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}/lists",
                             "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "boards", "1", "lists"]
+                            "path": ["api", "v1", "boards", "{{board_id}}", "lists"]
                         },
-                        "description": "Crea una nueva lista en un tablero"
+                        "description": "Crea una nueva lista en un tablero con manejo automático de posiciones"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get List",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}/lists/{{list_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "boards", "{{board_id}}", "lists", "{{list_id}}"]
+                        },
+                        "description": "Obtiene una lista específica con sus tarjetas"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update List",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"En progreso\",\n    \"position\": 1\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}/lists/{{list_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "boards", "{{board_id}}", "lists", "{{list_id}}"]
+                        },
+                        "description": "Actualiza nombre y posición de una lista"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete List",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}/lists/{{list_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "boards", "{{board_id}}", "lists", "{{list_id}}"]
+                        },
+                        "description": "Elimina una lista y reordena las posiciones restantes"
                     },
                     "response": []
                 }
@@ -376,7 +497,7 @@
         },
         {
             "name": "Cards",
-            "description": "Endpoints de tarjetas",
+            "description": "Endpoints de gestión de tarjetas dentro de listas",
             "item": [
                 {
                     "name": "Get Cards",
@@ -393,11 +514,11 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/v1/lists/1/cards",
+                            "raw": "{{base_url}}/api/v1/lists/{{list_id}}/cards",
                             "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "lists", "1", "cards"]
+                            "path": ["api", "v1", "lists", "{{list_id}}", "cards"]
                         },
-                        "description": "Obtiene todas las tarjetas de una lista"
+                        "description": "Obtiene todas las tarjetas de una lista con etiquetas y comentarios"
                     },
                     "response": []
                 },
@@ -421,19 +542,42 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"Mi primera tarea\",\n    \"description\": \"Descripción de la tarea\",\n    \"due_date\": \"2025-10-15\"\n}"
+                            "raw": "{\n    \"title\": \"Mi primera tarea\",\n    \"description\": \"Descripción detallada de la tarea\",\n    \"position\": 0,\n    \"due_date\": \"2025-10-15\",\n    \"label_ids\": [1, 2]\n}"
                         },
                         "url": {
-                            "raw": "{{base_url}}/api/v1/lists/1/cards",
+                            "raw": "{{base_url}}/api/v1/lists/{{list_id}}/cards",
                             "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "lists", "1", "cards"]
+                            "path": ["api", "v1", "lists", "{{list_id}}", "cards"]
                         },
-                        "description": "Crea una nueva tarjeta en una lista"
+                        "description": "Crea una nueva tarjeta en una lista con asignación opcional de etiquetas"
                     },
                     "response": []
                 },
                 {
-                    "name": "Move Card",
+                    "name": "Get Card",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/cards/{{card_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "cards", "{{card_id}}"]
+                        },
+                        "description": "Obtiene detalles completos de una tarjeta con todas las relaciones"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Card",
                     "request": {
                         "method": "PUT",
                         "header": [
@@ -452,14 +596,37 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"board_list_id\": 2,\n    \"position\": 0\n}"
+                            "raw": "{\n    \"title\": \"Tarea actualizada\",\n    \"description\": \"Nueva descripción\",\n    \"board_list_id\": 2,\n    \"position\": 1,\n    \"due_date\": \"2025-10-20\",\n    \"is_completed\": true\n}"
                         },
                         "url": {
-                            "raw": "{{base_url}}/api/v1/cards/1",
+                            "raw": "{{base_url}}/api/v1/cards/{{card_id}}",
                             "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "cards", "1"]
+                            "path": ["api", "v1", "cards", "{{card_id}}"]
                         },
-                        "description": "Mueve una tarjeta a otra lista"
+                        "description": "Actualiza una tarjeta (incluyendo movimiento entre listas)"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Card",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/cards/{{card_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "cards", "{{card_id}}"]
+                        },
+                        "description": "Elimina una tarjeta y reordena las posiciones"
                     },
                     "response": []
                 }
@@ -467,7 +634,7 @@
         },
         {
             "name": "Labels",
-            "description": "Endpoints de etiquetas",
+            "description": "Endpoints de gestión de etiquetas",
             "item": [
                 {
                     "name": "Get Labels",
@@ -484,11 +651,11 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/v1/boards/1/labels",
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}/labels",
                             "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "boards", "1", "labels"]
+                            "path": ["api", "v1", "boards", "{{board_id}}", "labels"]
                         },
-                        "description": "Obtiene todas las etiquetas de un tablero"
+                        "description": "Obtiene todas las etiquetas disponibles en un tablero"
                     },
                     "response": []
                 },
@@ -515,138 +682,103 @@
                             "raw": "{\n    \"name\": \"Urgente\",\n    \"color\": \"#FF0000\"\n}"
                         },
                         "url": {
-                            "raw": "{{base_url}}/api/v1/boards/1/labels",
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}/labels",
                             "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "boards", "1", "labels"]
+                            "path": ["api", "v1", "boards", "{{board_id}}", "labels"]
                         },
-                        "description": "Crea una nueva etiqueta en un tablero"
+                        "description": "Crea una nueva etiqueta en un tablero con nombre y color"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Label",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/labels/{{label_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "labels", "{{label_id}}"]
+                        },
+                        "description": "Obtiene detalles de una etiqueta específica"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Label",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Alta Prioridad\",\n    \"color\": \"#FF5733\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/labels/{{label_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "labels", "{{label_id}}"]
+                        },
+                        "description": "Actualiza nombre y/o color de una etiqueta"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Label",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/labels/{{label_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "labels", "{{label_id}}"]
+                        },
+                        "description": "Elimina una etiqueta (se remueve automáticamente de tarjetas)"
                     },
                     "response": []
                 }
             ]
         },
         {
-            "name": "Auth",
-            "description": "Endpoints de autenticación",
+            "name": "Comments",
+            "description": "Endpoints de gestión de comentarios en tarjetas",
             "item": [
                 {
-                    "name": "Register",
-                    "request": {
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"name\": \"Nuevo Usuario\",\n    \"email\": \"nuevo@ejemplo.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\"\n}"
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/auth/register",
-                            "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "auth", "register"]
-                        },
-                        "description": "Registra un nuevo usuario en el sistema"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Login",
-                    "request": {
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"password\"\n}"
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/auth/login",
-                            "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "auth", "login"]
-                        },
-                        "description": "Inicia sesión con un usuario existente"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Logout",
-                    "request": {
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "value": "Bearer {{token}}"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/auth/logout",
-                            "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "auth", "logout"]
-                        },
-                        "description": "Cierra la sesión del usuario actual"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Refresh Token",
-                    "request": {
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "value": "Bearer {{token}}"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/auth/refresh",
-                            "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "auth", "refresh"]
-                        },
-                        "description": "Refresca el token JWT actual"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "User Info",
+                    "name": "Get Comments",
                     "request": {
                         "method": "GET",
                         "header": [
                             {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            },
-                            {
                                 "key": "Accept",
                                 "value": "application/json"
                             },
@@ -656,24 +788,18 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/v1/auth/me",
+                            "raw": "{{base_url}}/api/v1/cards/{{card_id}}/comments",
                             "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "auth", "me"]
+                            "path": ["api", "v1", "cards", "{{card_id}}", "comments"]
                         },
-                        "description": "Obtiene información del usuario autenticado"
+                        "description": "Obtiene todos los comentarios de una tarjeta ordenados por fecha"
                     },
                     "response": []
-                }
-            ]
-        },
-        {
-            "name": "User",
-            "description": "Endpoints de usuario normal",
-            "item": [
+                },
                 {
-                    "name": "User Profile",
+                    "name": "Create Comment",
                     "request": {
-                        "method": "GET",
+                        "method": "POST",
                         "header": [
                             {
                                 "key": "Content-Type",
@@ -688,12 +814,93 @@
                                 "value": "Bearer {{token}}"
                             }
                         ],
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/user/profile",
-                            "host": ["{{base_url}}"],
-                            "path": ["api", "v1", "user", "profile"]
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"content\": \"Este es un comentario sobre la tarea\"\n}"
                         },
-                        "description": "Obtiene el perfil del usuario autenticado"
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/cards/{{card_id}}/comments",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "cards", "{{card_id}}", "comments"]
+                        },
+                        "description": "Crea un nuevo comentario en una tarjeta"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Comment",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/comments/{{comment_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "comments", "{{comment_id}}"]
+                        },
+                        "description": "Obtiene detalles de un comentario específico"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Comment",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"content\": \"Comentario actualizado con nueva información\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/comments/{{comment_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "comments", "{{comment_id}}"]
+                        },
+                        "description": "Actualiza un comentario existente (solo el autor)"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Comment",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/comments/{{comment_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "comments", "{{comment_id}}"]
+                        },
+                        "description": "Elimina un comentario (autor o administradores)"
                     },
                     "response": []
                 }
@@ -709,10 +916,6 @@
                         "method": "GET",
                         "header": [
                             {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            },
-                            {
                                 "key": "Accept",
                                 "value": "application/json"
                             },
@@ -726,7 +929,7 @@
                             "host": ["{{base_url}}"],
                             "path": ["api", "v1", "admin", "dashboard"]
                         },
-                        "description": "Acceso exclusivo para administradores"
+                        "description": "Obtiene estadísticas generales del sistema (solo administradores)"
                     },
                     "response": []
                 }
@@ -742,6 +945,36 @@
         {
             "key": "token",
             "value": "",
+            "type": "string"
+        },
+        {
+            "key": "board_id",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "list_id",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "card_id",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "label_id",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "comment_id",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "user_id",
+            "value": "2",
             "type": "string"
         }
     ]

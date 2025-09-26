@@ -6,21 +6,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\AuthController;
 
-// Endpoint de prueba para verificar que la API base funciona
-Route::get('/test', function (Request $request) {
-    return response()->json([
-        'message' => 'API base funcionando correctamente',
-        'versiones_disponibles' => [
-            'v1' => '/api/v1'
-        ],
-        'documentacion' => '/docs/api'
-    ]);
-});
 
 // Redireccionar a la versión más reciente de la API (v1 actualmente)
 Route::get('/', function () {
     return redirect('/api/v1');
 });
+
+
 
 // Rutas de autenticación (no versionadas)
 Route::prefix('auth')->group(function () {
