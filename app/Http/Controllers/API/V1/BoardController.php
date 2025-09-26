@@ -532,6 +532,102 @@ class BoardController extends Controller
     }
     
     /**
+     * Actualizar el rol de un colaborador en un tablero.
+     *
+     * @OA\Put(
+     *     path="/api/v1/boards/{boardId}/collaborators/{userId}",
+     *     summary="Actualizar rol de colaborador",
+     *     description="Actualiza el rol de un colaborador en un tablero (solo el propietario puede hacerlo)",
+     *     operationId="updateBoardCollaboratorRole",
+     *     tags={"Tableros"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="boardId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del tablero",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del usuario colaborador",
+     *         @OA\Schema(type="integer", example=2)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"role"},
+     *             @OA\Property(property="role", type="string", enum={"viewer", "editor", "admin"}, example="editor")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Rol actualizado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Rol del colaborador actualizado con éxito")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Acceso denegado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso de propietario")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Colaborador no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Colaborador no encontrado en este tablero")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Datos de entrada inválidos",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="El rol especificado no es válido")
+     *         )
+     *     )
+     * )
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $boardId
+     * @param  int  $userId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateCollaboratorRole(Request $request, $boardId, $userId)
+    {
+        $user = Auth::user();
+        $board = $this->findBoardOwner($boardId, $user);
+        
+        if (!$board) {
+            return response()->json(['message' => 'Tablero no encontrado o sin acceso de propietario'], 403);
+        }
+        
+        $request->validate([
+            'role' => 'required|in:viewer,editor,admin'
+        ]);
+        
+        // Verificar que el usuario es colaborador del tablero
+        $isCollaborator = $board->collaborators()->where('users.id', $userId)->exists();
+        
+        if (!$isCollaborator) {
+            return response()->json(['message' => 'Colaborador no encontrado en este tablero'], 404);
+        }
+        
+        // Actualizar el rol en la tabla pivot
+        $board->collaborators()->updateExistingPivot($userId, [
+            'role' => $request->role
+        ]);
+        
+        return response()->json([
+            'message' => 'Rol del colaborador actualizado con éxito'
+        ]);
+    }
+    
+    /**
      * Eliminar un colaborador de un tablero.
      *
      * @OA\Delete(

@@ -33,6 +33,7 @@ Route::middleware('auth:api')->group(function () {
         
         // Colaboradores
         Route::post('/{boardId}/collaborators', [BoardController::class, 'addCollaborator']);
+        Route::put('/{boardId}/collaborators/{userId}', [BoardController::class, 'updateCollaboratorRole']);
         Route::delete('/{boardId}/collaborators/{userId}', [BoardController::class, 'removeCollaborator']);
         
         // Listas
