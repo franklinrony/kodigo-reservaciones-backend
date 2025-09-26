@@ -667,9 +667,9 @@ class BoardController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Tablero no encontrado",
+     *         description="Colaborador no encontrado en el tablero",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Tablero no encontrado o sin acceso de propietario")
+     *             @OA\Property(property="message", type="string", example="Colaborador no encontrado en este tablero")
      *         )
      *     ),
      *     @OA\Response(
@@ -692,6 +692,13 @@ class BoardController extends Controller
         
         if (!$board) {
             return response()->json(['message' => 'Tablero no encontrado o sin acceso de propietario'], 403);
+        }
+        
+        // Verificar que el usuario es colaborador del tablero
+        $isCollaborator = $board->collaborators()->where('users.id', $userId)->exists();
+        
+        if (!$isCollaborator) {
+            return response()->json(['message' => 'Colaborador no encontrado en este tablero'], 404);
         }
         
         $board->collaborators()->detach($userId);
