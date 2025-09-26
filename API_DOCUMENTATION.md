@@ -7,6 +7,10 @@ Versión actual de la API: `v1`
 Formato de respuestas: `JSON`  
 Autenticación: JWT (JSON Web Token)
 
+## Documentación Manual
+
+Para acceder a la documentación manual detallada, consulta el archivo [API_MANUAL.md](API_MANUAL.md)
+
 ## Requisitos para las peticiones
 
 - Content-Type: application/json

@@ -29,8 +29,17 @@ return Application::configure(basePath: dirname(__DIR__))
         // Register auth middleware
         $middleware->alias([
             'auth.role' => \App\Http\Middleware\CheckRole::class,
+            'json.response' => \App\Http\Middleware\ForceJsonResponse::class,
         ]);
+        
+        // Apply middleware to API routes
+        $middleware->prependToGroup('api', \App\Http\Middleware\ForceJsonResponse::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->reportable(function (\Throwable $e) {
+            // Custom reporting logic, if any
+        });
+        
+        // Use our custom exception handler
+        $exceptions->dontReport(\App\Exceptions\Handler::class);
     })->create();
