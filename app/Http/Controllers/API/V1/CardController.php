@@ -95,7 +95,7 @@ class CardController extends Controller
         
         $cards = $boardList->cards()
             ->orderBy('position')
-            ->with(['labels', 'comments' => function ($query) {
+            ->with(['assignedUser', 'labels', 'comments' => function ($query) {
                 $query->orderBy('created_at', 'desc');
             }])
             ->get();
@@ -205,9 +205,21 @@ class CardController extends Controller
             'description' => 'nullable|string',
             'position' => 'nullable|integer|min:0',
             'due_date' => 'nullable|date',
+            'assigned_user_id' => 'nullable|exists:users,id',
+            'progress_percentage' => 'nullable|integer|min:0|max:100',
             'label_ids' => 'nullable|array',
             'label_ids.*' => 'exists:labels,id'
         ]);
+        
+        // Verificar que el assigned_user_id sea colaborador del tablero
+        if ($request->assigned_user_id) {
+            $board = $boardList->board;
+            $isCollaborator = $board->user_id == $request->assigned_user_id ||
+                              $board->collaborators()->where('users.id', $request->assigned_user_id)->exists();
+            if (!$isCollaborator) {
+                return response()->json(['message' => 'El usuario asignado no tiene acceso al tablero'], 422);
+            }
+        }
         
         // Si no se proporciona posición, colocar al final
         $position = $request->position;
@@ -225,6 +237,9 @@ class CardController extends Controller
             'description' => $request->description,
             'position' => $position,
             'due_date' => $request->due_date,
+            'assigned_user_id' => $request->assigned_user_id,
+            'progress_percentage' => $request->progress_percentage ?? 0,
+            'priority' => $request->priority ?? 'medium',
             'user_id' => $user->id
         ]);
         
@@ -242,7 +257,7 @@ class CardController extends Controller
         }
         
         // Cargar relaciones para la respuesta
-        $card->load('labels');
+        $card->load(['assignedUser', 'labels']);
         
         return response()->json([
             'message' => 'Tarjeta creada con éxito',
@@ -451,10 +466,22 @@ class CardController extends Controller
             'description' => 'nullable|string',
             'position' => 'nullable|integer|min:0',
             'due_date' => 'nullable|date',
+            'assigned_user_id' => 'nullable|exists:users,id',
+            'progress_percentage' => 'nullable|integer|min:0|max:100',
             'list_id' => 'nullable|exists:board_lists,id',
             'label_ids' => 'nullable|array',
             'label_ids.*' => 'exists:labels,id'
         ]);
+        
+        // Verificar que el assigned_user_id sea colaborador del tablero
+        if ($request->assigned_user_id) {
+            $board = $card->boardList->board;
+            $isCollaborator = $board->user_id == $request->assigned_user_id ||
+                              $board->collaborators()->where('users.id', $request->assigned_user_id)->exists();
+            if (!$isCollaborator) {
+                return response()->json(['message' => 'El usuario asignado no tiene acceso al tablero'], 422);
+            }
+        }
         
         $oldListId = $card->board_list_id;
         $newListId = $request->list_id;
@@ -535,6 +562,14 @@ class CardController extends Controller
             $card->due_date = $request->due_date;
         }
         
+        if ($request->has('assigned_user_id')) {
+            $card->assigned_user_id = $request->assigned_user_id;
+        }
+        
+        if ($request->has('progress_percentage')) {
+            $card->progress_percentage = $request->progress_percentage;
+        }
+        
         $card->save();
         
         // Actualizar etiquetas si se proporcionan
@@ -552,7 +587,7 @@ class CardController extends Controller
         }
         
         // Cargar relaciones para la respuesta
-        $card->load(['boardList', 'labels']);
+        $card->load(['boardList', 'assignedUser', 'labels']);
         
         return response()->json([
             'message' => 'Tarjeta actualizada con éxito',

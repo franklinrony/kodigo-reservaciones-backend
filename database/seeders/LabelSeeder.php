@@ -18,30 +18,25 @@ class LabelSeeder extends Seeder
             return;
         }
 
-        // Etiquetas comunes para cada tablero
+        // Etiquetas de prioridad para cada tablero
         $defaultLabels = [
-            ['name' => 'Alta Prioridad', 'color' => '#FF0000'],
-            ['name' => 'Media Prioridad', 'color' => '#FFA500'],
-            ['name' => 'Baja Prioridad', 'color' => '#008000'],
-            ['name' => 'Bug', 'color' => '#DC143C'],
-            ['name' => 'Mejora', 'color' => '#1E90FF'],
-            ['name' => 'Feature', 'color' => '#32CD32'],
-            ['name' => 'Documentación', 'color' => '#9370DB'],
-            ['name' => 'Testing', 'color' => '#FFD700'],
+            ['name' => 'Bajo', 'color' => '#008000'],
+            ['name' => 'Medio', 'color' => '#FFA500'],
+            ['name' => 'Alto', 'color' => '#FF0000'],
+            ['name' => 'Extremo', 'color' => '#8B0000'],
         ];
 
-        foreach ($boards as $board) {
-            foreach ($defaultLabels as $labelData) {
-                Label::firstOrCreate(
-                    [
-                        'board_id' => $board->id,
-                        'name' => $labelData['name']
-                    ],
-                    [
-                        'color' => $labelData['color'],
-                    ]
-                );
-            }
+        // Crear etiquetas de prioridad globales (compartidas por todos los tableros)
+        foreach ($defaultLabels as $labelData) {
+            Label::firstOrCreate(
+                [
+                    'name' => $labelData['name'],
+                    'board_id' => null, // Etiquetas globales para prioridades
+                ],
+                [
+                    'color' => $labelData['color'],
+                ]
+            );
         }
 
         $this->command->info('Etiquetas creadas exitosamente para todos los tableros.');

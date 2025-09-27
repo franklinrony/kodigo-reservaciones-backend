@@ -372,7 +372,9 @@ POST /api/v1/lists/{listId}/cards
 {
   "title": "Nueva tarea",
   "description": "Descripción de la tarea",
-  "due_date": "2025-10-15",
+  "due_date": "2025-10-15 14:30:00",
+  "assigned_user_id": 2,
+  "progress_percentage": 0,
   "label_ids": [1, 2]
 }
 ```
@@ -390,8 +392,10 @@ GET /api/v1/cards/{id}
   "description": "Crear sistema de autenticación",
   "board_list_id": 1,
   "user_id": 1,
+  "assigned_user_id": 2,
   "position": 0,
-  "due_date": "2025-10-01",
+  "due_date": "2025-10-01 14:30:00",
+  "progress_percentage": 25,
   "is_completed": false,
   "is_archived": false,
   "created_at": "2025-09-26T10:00:00.000000Z",
@@ -399,6 +403,10 @@ GET /api/v1/cards/{id}
   "creator": {
     "id": 1,
     "name": "Juan Pérez"
+  },
+  "assigned_user": {
+    "id": 2,
+    "name": "María García"
   },
   "list": {
     "id": 1,
@@ -442,6 +450,9 @@ PUT /api/v1/cards/{id}
   "description": "Nueva descripción",
   "board_list_id": 2,
   "position": 1,
+  "due_date": "2025-10-20 16:00:00",
+  "assigned_user_id": 3,
+  "progress_percentage": 50,
   "is_completed": true,
   "label_ids": [1, 3]
 }
@@ -451,6 +462,20 @@ PUT /api/v1/cards/{id}
 ```http
 DELETE /api/v1/cards/{id}
 ```
+
+### 📊 Actualizar Progreso de Tarjeta
+```http
+PATCH /api/v1/cards/{id}/progress
+```
+
+**Body**:
+```json
+{
+  "progress_percentage": 75
+}
+```
+
+**Nota**: Cuando el progreso llega a 100%, la tarjeta se marca automáticamente como completada (`is_completed = true`). Si el progreso baja de 100%, se desmarca la completitud.
 
 ---
 
@@ -469,6 +494,45 @@ GET /api/v1/boards/{boardId}/labels
     "name": "Urgente",
     "color": "#ff0000",
     "board_id": 1,
+    "created_at": "2025-09-26T10:00:00.000000Z"
+  }
+]
+```
+
+### 🌍 Listar Etiquetas Globales (Prioridades)
+```http
+GET /api/v1/labels/global
+```
+
+**Respuesta Exitosa (200)**:
+```json
+[
+  {
+    "id": 1,
+    "name": "Bajo",
+    "color": "#28a745",
+    "board_id": null,
+    "created_at": "2025-09-26T10:00:00.000000Z"
+  },
+  {
+    "id": 2,
+    "name": "Medio",
+    "color": "#ffc107",
+    "board_id": null,
+    "created_at": "2025-09-26T10:00:00.000000Z"
+  },
+  {
+    "id": 3,
+    "name": "Alto",
+    "color": "#fd7e14",
+    "board_id": null,
+    "created_at": "2025-09-26T10:00:00.000000Z"
+  },
+  {
+    "id": 4,
+    "name": "Extremo",
+    "color": "#dc3545",
+    "board_id": null,
     "created_at": "2025-09-26T10:00:00.000000Z"
   }
 ]

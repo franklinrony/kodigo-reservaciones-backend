@@ -52,7 +52,9 @@ Crear una API robusta y escalable que sirva como backend para aplicaciones de ge
 ### 📝 Organización de Tareas
 - ✅ Listas/columnas personalizables (Por hacer, En progreso, Terminado, etc.)
 - ✅ Tarjetas con títulos, descripciones y fechas límite
-- ✅ Sistema de etiquetas con colores para categorización
+- ✅ Asignación de usuarios responsables a tareas
+- ✅ Seguimiento de progreso porcentual con auto-completado automático
+- ✅ Sistema de etiquetas con colores para categorización (incluyendo prioridades globales)
 - ✅ Reordenamiento intuitivo de listas y tarjetas
 
 ### 💬 Colaboración

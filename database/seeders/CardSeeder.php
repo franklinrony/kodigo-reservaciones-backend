@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\BoardList;
 use App\Models\Card;
+use App\Models\Label;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -58,27 +59,53 @@ class CardSeeder extends Seeder
             $listType = $list->name;
             $cards = $cardsByListType[$listType] ?? [];
 
+            // Obtener colaboradores del tablero (dueño + colaboradores)
+            $board = $list->board;
+            $collaborators = collect([$board->user]); // Dueño
+            $collaborators = $collaborators->merge($board->collaborators); // Agregar colaboradores
+
             foreach ($cards as $index => $cardData) {
-                // Asignar usuario aleatorio
-                $randomUser = $users->random();
+                // Asignar usuario aleatorio de los colaboradores
+                $randomUser = $collaborators->random();
 
                 // Crear fecha de vencimiento aleatoria (algunas tarjetas la tendrán)
                 $dueDate = rand(0, 1) ? Carbon::now()->addDays(rand(1, 30)) : null;
 
-                Card::firstOrCreate(
+                // Asignar progreso basado en el tipo de lista
+                $progress = 0;
+                if ($listType === 'En Progreso') {
+                    $progress = rand(10, 80);
+                } elseif ($listType === 'En Revisión') {
+                    $progress = rand(80, 95);
+                } elseif ($listType === 'Completado') {
+                    $progress = 100;
+                }
+
+                $card = Card::firstOrCreate(
                     [
                         'title' => $cardData['title'],
                         'board_list_id' => $list->id
                     ],
                     [
                         'description' => $cardData['description'],
-                        'user_id' => $randomUser->id,
+                        'user_id' => $board->user_id, // El que asigna es el dueño
+                        'assigned_user_id' => $randomUser->id,
                         'position' => $index + 1,
                         'due_date' => $dueDate,
+                        'progress_percentage' => $progress,
                         'is_completed' => $listType === 'Completado',
                         'is_archived' => false,
                     ]
                 );
+
+                // Asignar una etiqueta de prioridad global aleatoria
+                $priorityLabels = Label::whereNull('board_id')
+                    ->whereIn('name', ['Bajo', 'Medio', 'Alto', 'Extremo'])
+                    ->get();
+                if ($priorityLabels->isNotEmpty()) {
+                    $randomPriorityLabel = $priorityLabels->random();
+                    $card->labels()->syncWithoutDetaching([$randomPriorityLabel->id]);
+                }
             }
         }
 

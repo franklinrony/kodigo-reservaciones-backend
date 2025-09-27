@@ -17,8 +17,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->foreignId('board_list_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('assigned_user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->integer('position')->default(0);
-            $table->date('due_date')->nullable();
+            $table->datetime('due_date')->nullable();
+            $table->integer('progress_percentage')->default(0);
             $table->boolean('is_completed')->default(false);
             $table->boolean('is_archived')->default(false);
             $table->timestamps();

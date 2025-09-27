@@ -119,8 +119,10 @@ La base de datos del sistema Kanban está diseñada siguiendo las mejores práct
 | `description` | TEXT | Descripción detallada | NULLABLE |
 | `board_list_id` | BIGINT UNSIGNED | ID de la lista contenedora | FOREIGN KEY → board_lists.id, CASCADE |
 | `user_id` | BIGINT UNSIGNED | ID del creador | FOREIGN KEY → users.id, CASCADE |
+| `assigned_user_id` | BIGINT UNSIGNED | ID del usuario asignado | FOREIGN KEY → users.id, SET NULL |
 | `position` | INT | Posición dentro de la lista | DEFAULT 0 |
-| `due_date` | DATE | Fecha límite de la tarea | NULLABLE |
+| `due_date` | DATETIME | Fecha límite de la tarea | NULLABLE |
+| `progress_percentage` | INT | Porcentaje de avance de la tarea (0-100) | DEFAULT 0 |
 | `is_completed` | BOOLEAN | Estado de completitud | DEFAULT FALSE |
 | `is_archived` | BOOLEAN | Indica si está archivada | DEFAULT FALSE |
 | `created_at` | TIMESTAMP | Fecha de creación | NOT NULL |
@@ -129,6 +131,7 @@ La base de datos del sistema Kanban está diseñada siguiendo las mejores práct
 **Relaciones**:
 - Muchos a uno con `board_lists`
 - Muchos a uno con `users` (creador)
+- Muchos a uno con `users` (asignado, a través de `assigned_user_id`)
 - Uno a muchos con `comments`
 - Muchos a muchos con `labels` (a través de `card_label`)
 
@@ -136,14 +139,14 @@ La base de datos del sistema Kanban está diseñada siguiendo las mejores práct
 
 ### 🏷️ 7. Tabla `labels` - Etiquetas de Clasificación
 
-**Propósito**: Permite categorizar y etiquetar tarjetas con colores.
+**Propósito**: Permite categorizar y etiquetar tarjetas con colores. Las etiquetas de prioridad (Bajo, Medio, Alto, Extremo) son globales (board_id = null), mientras que otras etiquetas pueden ser específicas por tablero.
 
 | Campo | Tipo | Descripción | Restricciones |
 |-------|------|-------------|---------------|
 | `id` | BIGINT UNSIGNED | Identificador único de la etiqueta | PRIMARY KEY, AUTO_INCREMENT |
 | `name` | VARCHAR(255) | Nombre de la etiqueta | NOT NULL |
 | `color` | VARCHAR(255) | Color en formato hexadecimal | DEFAULT '#0079bf' |
-| `board_id` | BIGINT UNSIGNED | ID del tablero al que pertenece | FOREIGN KEY → boards.id, CASCADE |
+| `board_id` | BIGINT UNSIGNED | ID del tablero al que pertenece (null para etiquetas globales como prioridades) | FOREIGN KEY → boards.id, NULLABLE, CASCADE |
 | `created_at` | TIMESTAMP | Fecha de creación | NOT NULL |
 | `updated_at` | TIMESTAMP | Fecha de última actualización | NOT NULL |
 

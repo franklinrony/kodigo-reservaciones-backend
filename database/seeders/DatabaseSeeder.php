@@ -19,11 +19,10 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,        // Crear usuarios con roles asignados
             BoardSeeder::class,       // Crear tableros
             BoardListSeeder::class,   // Crear listas en tableros
-            LabelSeeder::class,       // Crear etiquetas en tableros
-            CardSeeder::class,        // Crear tarjetas en listas
+            LabelSeeder::class,       // Crear etiquetas de prioridad en tableros
+            CardSeeder::class,        // Crear tarjetas en listas con prioridad asignada
             CommentSeeder::class,     // Crear comentarios en tarjetas
             BoardUserSeeder::class,   // Asignar colaboradores a tableros
-            CardLabelSeeder::class,   // Asignar etiquetas a tarjetas
         ]);
     }
 }
