@@ -8,6 +8,7 @@ use App\Http\Controllers\API\V1\CardController;
 use App\Http\Controllers\API\V1\LabelController;
 use App\Http\Controllers\API\V1\CommentController;
 use App\Http\Controllers\API\V1\HealthController;
+use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\AuthController;
 
 // Health check endpoint (sin autenticación requerida)
@@ -18,6 +19,11 @@ Route::middleware('auth:api')->group(function () {
     // Rutas accesibles por cualquier usuario autenticado
     Route::prefix('user')->group(function () {
         Route::get('profile', [AuthController::class, 'me']);
+    });
+    
+    // Rutas para usuarios
+    Route::prefix('users')->group(function () {
+        Route::get('/{id}', [UserController::class, 'show']);
     });
     
     // Rutas protegidas para administradores
@@ -34,6 +40,9 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{boardId}', [BoardController::class, 'show']);
         Route::put('/{boardId}', [BoardController::class, 'update']);
         Route::delete('/{boardId}', [BoardController::class, 'destroy']);
+        
+        // Usuarios asociados al tablero
+        Route::get('/{boardId}/users', [UserController::class, 'getBoardUsers']);
         
         // Colaboradores
         Route::post('/{boardId}/collaborators', [BoardController::class, 'addCollaborator']);
