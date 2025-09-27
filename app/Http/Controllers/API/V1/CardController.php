@@ -503,7 +503,7 @@ class CardController extends Controller
                 $oldPosition = $card->position;
                 
                 if ($newPosition != $oldPosition) {
-                    $boardList = $card->list;
+                    $boardList = $card->boardList;
                     
                     if ($newPosition > $oldPosition) {
                         // Mover hacia abajo, disminuir posiciones entre antigua y nueva
@@ -540,17 +540,19 @@ class CardController extends Controller
         // Actualizar etiquetas si se proporcionan
         if ($request->has('label_ids')) {
             // Verificar que las etiquetas pertenecen al mismo tablero
-            $board = $card->list->board;
-            $validLabelIds = $board->labels()
-                ->whereIn('id', $request->label_ids)
-                ->pluck('id')
-                ->toArray();
-            
-            $card->labels()->sync($validLabelIds);
+            if ($card->boardList) {
+                $board = $card->boardList->board;
+                $validLabelIds = $board->labels()
+                    ->whereIn('id', $request->label_ids)
+                    ->pluck('id')
+                    ->toArray();
+                
+                $card->labels()->sync($validLabelIds);
+            }
         }
         
         // Cargar relaciones para la respuesta
-        $card->load(['list', 'labels']);
+        $card->load(['boardList', 'labels']);
         
         return response()->json([
             'message' => 'Tarjeta actualizada con éxito',
@@ -672,7 +674,11 @@ class CardController extends Controller
             return null;
         }
         
-        $board = $card->list->board;
+        if (!$card->boardList) {
+            return null;
+        }
+        
+        $board = $card->boardList->board;
         
         // Verificar si es el propietario del tablero
         if ($board->user_id == $user->id) {
