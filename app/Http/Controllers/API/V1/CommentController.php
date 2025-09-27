@@ -455,7 +455,13 @@ class CommentController extends Controller
             return null;
         }
         
-        $board = $card->list->board;
+        $boardList = $card->boardList;
+        
+        if (!$boardList) {
+            return null;
+        }
+        
+        $board = $boardList->board;
         
         // Verificar si es el propietario del tablero
         if ($board->user_id == $user->id) {
