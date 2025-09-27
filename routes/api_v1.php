@@ -7,7 +7,11 @@ use App\Http\Controllers\API\V1\BoardListController;
 use App\Http\Controllers\API\V1\CardController;
 use App\Http\Controllers\API\V1\LabelController;
 use App\Http\Controllers\API\V1\CommentController;
+use App\Http\Controllers\API\V1\HealthController;
 use App\Http\Controllers\API\AuthController;
+
+// Health check endpoint (sin autenticación requerida)
+Route::get('/health', [HealthController::class, 'check']);
 
 // Rutas protegidas por JWT
 Route::middleware('auth:api')->group(function () {

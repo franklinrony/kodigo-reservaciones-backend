@@ -352,6 +352,11 @@ Una vez que el servidor esté ejecutándose, puedes acceder a:
 
 ### 🔧 Endpoints Principales
 
+#### Sistema
+```http
+GET /api/v1/health    # Health check de la aplicación
+```
+
 #### Autenticación
 ```http
 POST /api/auth/register   # Registro de usuario
@@ -728,11 +733,27 @@ php artisan view:cache
 #### Health Checks
 ```bash
 # Endpoint de health check
-curl -f https://tu-api.com/api/health
+curl -f http://localhost:8000/api/v1/health
 
 # Verificar base de datos
 php artisan tinker --execute="DB::connection()->getPdo()"
 ```
+
+### 👥 Usuarios de Prueba
+
+Después de ejecutar los seeders (`php artisan db:seed`), estarán disponibles los siguientes usuarios de prueba:
+
+| Email | Password | Rol | Nombre |
+|-------|----------|-----|--------|
+| `admin@kodigo.com` | `password` | Admin | Administrador Kodigo |
+| `test@example.com` | `password` | User | Usuario de Prueba |
+| `maria@example.com` | `password` | User | María González |
+| `carlos@example.com` | `password` | User | Carlos Rodríguez |
+| `ana@example.com` | `password` | User | Ana López |
+| `pedro@example.com` | `password` | User | Pedro Martínez |
+| `laura@example.com` | `password` | User | Laura Sánchez |
+
+**Nota**: Todos los usuarios tienen la contraseña `password`. Se recomienda cambiar las contraseñas en un entorno de producción.
 
 ---
 

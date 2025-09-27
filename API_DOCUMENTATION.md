@@ -6,7 +6,60 @@ La API de Kodigo Kanban es una interfaz RESTful completa para gestionar tableros
 
 **URL Base**: `http://localhost:8000/api/v1`
 
-## 🔐 Autenticación
+## � Health Check
+
+### Verificar Estado de la API
+```http
+GET /api/v1/health
+```
+
+**Respuesta Exitosa (200)**:
+```json
+{
+  "status": "ok",
+  "timestamp": "2025-09-27T20:28:32.863184Z",
+  "services": {
+    "database": {
+      "status": "ok",
+      "message": "Database connection successful"
+    },
+    "cache": {
+      "status": "ok",
+      "message": "Cache is working"
+    }
+  },
+  "system": {
+    "php_version": "8.2.0",
+    "laravel_version": "12.30.1",
+    "environment": "local",
+    "debug_mode": true,
+    "timezone": "UTC"
+  },
+  "stats": {
+    "users_count": 7,
+    "boards_count": 5,
+    "cards_count": 80
+  }
+}
+```
+
+**Respuesta de Error (503)**:
+```json
+{
+  "status": "error",
+  "timestamp": "2025-09-27T20:28:32.863184Z",
+  "services": {
+    "database": {
+      "status": "error",
+      "message": "Database connection failed: Connection refused"
+    }
+  }
+}
+```
+
+---
+
+## �🔐 Autenticación
 
 Todos los endpoints requieren autenticación JWT excepto los de registro y login.
 

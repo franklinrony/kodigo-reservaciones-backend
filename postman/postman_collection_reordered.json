@@ -6,6 +6,31 @@
     },
     "item": [
         {
+            "name": "System",
+            "description": "Endpoints del sistema",
+            "item": [
+                {
+                    "name": "Health Check",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/health",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "health"]
+                        },
+                        "description": "Verificar el estado de salud de la aplicación y sus servicios"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
             "name": "Auth",
             "description": "Endpoints de autenticación y usuarios",
             "item": [
