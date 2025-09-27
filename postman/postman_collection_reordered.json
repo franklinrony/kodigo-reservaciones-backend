@@ -147,6 +147,35 @@
             ]
         },
         {
+            "name": "Users",
+            "description": "Endpoints de gestión de usuarios",
+            "item": [
+                {
+                    "name": "Get User by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/users/{{user_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "users", "{{user_id}}"]
+                        },
+                        "description": "Obtiene la información de un usuario específico por su ID"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
             "name": "Boards",
             "description": "Endpoints de gestión de tableros Kanban",
             "item": [
@@ -363,6 +392,29 @@
                             "path": ["api", "v1", "boards", "{{board_id}}"]
                         },
                         "description": "Elimina un tablero (solo propietario)"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Board Users",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/boards/{{board_id}}/users",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "v1", "boards", "{{board_id}}", "users"]
+                        },
+                        "description": "Obtiene todos los usuarios asociados a un tablero (propietario y colaboradores) con sus roles"
                     },
                     "response": []
                 }

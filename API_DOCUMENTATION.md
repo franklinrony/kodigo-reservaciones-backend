@@ -169,7 +169,101 @@ POST /api/auth/refresh
 
 ---
 
-## 📋 Endpoints de Tableros (Boards)
+## � Endpoints de Usuarios (Users)
+
+### 👤 Obtener Usuario por ID
+```http
+GET /api/v1/users/{id}
+```
+
+**Parámetros de URL:**
+- `id` (integer, requerido): ID del usuario a consultar
+
+**Headers Requeridos:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+```
+
+**Respuesta Exitosa (200)**:
+```json
+{
+  "id": 1,
+  "name": "Juan Pérez",
+  "email": "juan@example.com",
+  "created_at": "2025-09-23T12:00:00.000000Z",
+  "updated_at": "2025-09-27T15:30:00.000000Z"
+}
+```
+
+**Respuesta de Error (404)**:
+```json
+{
+  "message": "Usuario no encontrado"
+}
+```
+
+### 👥 Obtener Usuarios de un Tablero
+```http
+GET /api/v1/boards/{boardId}/users
+```
+
+**Parámetros de URL:**
+- `boardId` (integer, requerido): ID del tablero
+
+**Headers Requeridos:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+```
+
+**Respuesta Exitosa (200)**:
+```json
+{
+  "board_id": 4,
+  "users": [
+    {
+      "id": 1,
+      "name": "Juan Pérez",
+      "email": "juan@example.com",
+      "role": "owner",
+      "joined_at": "2025-09-23T10:00:00.000000Z"
+    },
+    {
+      "id": 2,
+      "name": "María García",
+      "email": "maria@example.com",
+      "role": "editor",
+      "joined_at": "2025-09-24T14:30:00.000000Z"
+    },
+    {
+      "id": 3,
+      "name": "Carlos López",
+      "email": "carlos@example.com",
+      "role": "viewer",
+      "joined_at": "2025-09-25T09:15:00.000000Z"
+    }
+  ]
+}
+```
+
+**Respuesta de Error (404)**:
+```json
+{
+  "message": "Tablero no encontrado"
+}
+```
+
+**Respuesta de Error (403)**:
+```json
+{
+  "message": "No tienes acceso a este tablero"
+}
+```
+
+---
+
+## �📋 Endpoints de Tableros (Boards)
 
 ### 📋 Listar Tableros
 ```http
