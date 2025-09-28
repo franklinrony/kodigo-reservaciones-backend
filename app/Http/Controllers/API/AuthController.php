@@ -290,8 +290,12 @@ class AuthController extends Controller
      */
     public function refresh()
     {
+        // Usar TTL extendido para tokens refrescados (14 días = 20160 minutos)
+        $extendedTtl = 20160; // 14 días en minutos
+        JWTAuth::factory()->setTTL($extendedTtl);
+        
         $newToken = JWTAuth::refresh();
-        return $this->respondWithToken($newToken);
+        return $this->respondWithToken($newToken, $extendedTtl);
     }
 
     /**
@@ -301,10 +305,10 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken($token, $customTtl = null)
     {
-        // Obtener el TTL (tiempo de vida) del token desde la configuración
-        $ttl = config('jwt.ttl', 60);
+        // Usar TTL personalizado si se proporciona, sino usar el de configuración
+        $ttl = $customTtl ?? config('jwt.ttl', 60);
 
         return response()->json([
             'token' => $token,
