@@ -134,7 +134,7 @@ class CardController extends Controller
      *             @OA\Property(property="due_date", type="string", format="date", example="2025-12-31", description="Fecha límite (opcional)"),
      *             @OA\Property(property="label_ids", type="array", 
      *                 @OA\Items(type="integer", example=1), 
-     *                 description="IDs de las etiquetas a asignar (opcional)"
+     *                 description="IDs de las etiquetas del catálogo global a asignar (opcional)"
      *             )
      *         )
      *     ),
@@ -260,9 +260,8 @@ class CardController extends Controller
         
         // Asignar etiquetas si se proporcionaron
         if ($request->has('label_ids')) {
-            $board = $boardList->board;
-            $validLabelIds = $board->labels()
-                ->whereIn('id', $request->label_ids)
+            // Validar que las etiquetas existen en el catálogo global
+            $validLabelIds = \App\Models\Label::whereIn('id', $request->label_ids)
                 ->pluck('id')
                 ->toArray();
             
@@ -407,7 +406,7 @@ class CardController extends Controller
      *             @OA\Property(property="list_id", type="integer", example=2, description="ID de la lista de destino (para mover la tarjeta)"),
      *             @OA\Property(property="label_ids", type="array", 
      *                 @OA\Items(type="integer", example=1), 
-     *                 description="IDs de las etiquetas a asignar (reemplaza las existentes)"
+     *                 description="IDs de las etiquetas del catálogo global a asignar (reemplaza las existentes)"
      *             )
      *         )
      *     ),
@@ -605,27 +604,22 @@ class CardController extends Controller
             // Refrescar la relación boardList para asegurar que esté actualizada
             $card->refresh();
             
-            // Verificar que las etiquetas pertenecen al mismo tablero
-            if ($card->boardList) {
-                $board = $card->boardList->board;
-                $validLabelIds = $board->labels()
-                    ->whereIn('id', $request->label_ids)
-                    ->pluck('id')
-                    ->toArray();
-                
-                // Debug: mostrar qué etiquetas son válidas
-                if (count($request->label_ids) > 0 && count($validLabelIds) == 0) {
-                    // Log para debug
-                    Log::info('Card update - No valid labels found', [
-                        'card_id' => $card->id,
-                        'board_id' => $board->id,
-                        'requested_label_ids' => $request->label_ids,
-                        'board_labels' => $board->labels->pluck('id')->toArray()
-                    ]);
-                }
-                
-                $card->labels()->sync($validLabelIds);
+            // Validar que las etiquetas existen en el catálogo global (sin importar el tablero)
+            $validLabelIds = \App\Models\Label::whereIn('id', $request->label_ids)
+                ->pluck('id')
+                ->toArray();
+            
+            // Debug: mostrar qué etiquetas son válidas
+            if (count($request->label_ids) > 0 && count($validLabelIds) == 0) {
+                // Log para debug
+                Log::info('Card update - No valid labels found in global catalog', [
+                    'card_id' => $card->id,
+                    'requested_label_ids' => $request->label_ids,
+                    'available_global_labels' => \App\Models\Label::pluck('id')->toArray()
+                ]);
             }
+            
+            $card->labels()->sync($validLabelIds);
         }
         
         // Cargar relaciones para la respuesta
