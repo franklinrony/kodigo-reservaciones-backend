@@ -31,6 +31,11 @@ Route::middleware('auth:api')->group(function () {
         Route::prefix('admin')->group(function () {
             Route::get('dashboard', [AdminController::class, 'dashboard']);
         });
+        
+        // Rutas para gestión de usuarios (solo administradores)
+        Route::prefix('users')->group(function () {
+            Route::get('/', [UserController::class, 'index']);
+        });
     });
     
     // Rutas para el sistema Kanban

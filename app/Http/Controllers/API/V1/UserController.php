@@ -17,6 +17,102 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
+     * Obtener lista de usuarios
+     *
+     * @param Request $request
+     * @return JsonResponse
+     *
+     * @OA\Get(
+     *     path="/api/v1/users",
+     *     summary="Obtener lista de usuarios",
+     *     description="Obtiene una lista paginada de todos los usuarios del sistema",
+     *     operationId="getUsers",
+     *     tags={"Usuarios"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         required=false,
+     *         description="Número de página para paginación",
+     *         @OA\Schema(type="integer", minimum=1, example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="per_page",
+     *         in="query",
+     *         required=false,
+     *         description="Número de usuarios por página (máximo 100)",
+     *         @OA\Schema(type="integer", minimum=1, maximum=100, example=15)
+     *     ),
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         required=false,
+     *         description="Buscar usuarios por nombre o email",
+     *         @OA\Schema(type="string", example="juan")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de usuarios obtenida exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="users", type="object",
+     *                 @OA\Property(property="current_page", type="integer", example=1),
+     *                 @OA\Property(property="data", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="Juan Pérez"),
+     *                         @OA\Property(property="email", type="string", example="juan@example.com"),
+     *                         @OA\Property(property="email_verified_at", type="string", nullable=true, format="date-time"),
+     *                         @OA\Property(property="created_at", type="string", format="date-time"),
+     *                         @OA\Property(property="updated_at", type="string", format="date-time")
+     *                     )
+     *                 ),
+     *                 @OA\Property(property="first_page_url", type="string"),
+     *                 @OA\Property(property="from", type="integer"),
+     *                 @OA\Property(property="last_page", type="integer"),
+     *                 @OA\Property(property="last_page_url", type="string"),
+     *                 @OA\Property(property="next_page_url", type="string", nullable=true),
+     *                 @OA\Property(property="path", type="string"),
+     *                 @OA\Property(property="per_page", type="integer"),
+     *                 @OA\Property(property="prev_page_url", type="string", nullable=true),
+     *                 @OA\Property(property="to", type="integer"),
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
+     */
+    public function index(Request $request): JsonResponse
+    {
+        $query = User::query();
+
+        // Búsqueda por nombre o email
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('email', 'LIKE', "%{$search}%");
+            });
+        }
+
+        // Paginación
+        $perPage = $request->get('per_page', 15);
+        $perPage = min($perPage, 100); // Máximo 100 por página
+
+        $users = $query->paginate($perPage);
+
+        return response()->json([
+            'users' => $users,
+        ]);
+    }
+
+    /**
      * Obtener un usuario por su ID
      *
      * @param int $id
