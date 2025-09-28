@@ -30,6 +30,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth.role' => \App\Http\Middleware\CheckRole::class,
             'json.response' => \App\Http\Middleware\ForceJsonResponse::class,
+            'jwt.refresh' => \App\Http\Middleware\JWTRefreshMiddleware::class,
         ]);
         
         // Apply middleware to API routes

@@ -22,7 +22,9 @@ Route::prefix('auth')->group(function () {
     // Rutas que requieren autenticación
     Route::middleware('auth:api')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
-        Route::post('refresh', [AuthController::class, 'refresh']);
         Route::get('me', [AuthController::class, 'me']);
     });
+    
+    // Refresh token usa middleware especial que permite tokens expirados dentro del período de refresh
+    Route::middleware('jwt.refresh')->post('refresh', [AuthController::class, 'refresh']);
 });
