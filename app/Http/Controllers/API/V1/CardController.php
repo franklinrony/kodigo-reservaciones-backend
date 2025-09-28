@@ -7,6 +7,7 @@ use App\Models\BoardList;
 use App\Models\Card;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @OA\PathItem(
@@ -601,6 +602,9 @@ class CardController extends Controller
         
         // Actualizar etiquetas si se proporcionan
         if ($request->has('label_ids')) {
+            // Refrescar la relación boardList para asegurar que esté actualizada
+            $card->refresh();
+            
             // Verificar que las etiquetas pertenecen al mismo tablero
             if ($card->boardList) {
                 $board = $card->boardList->board;
@@ -608,6 +612,17 @@ class CardController extends Controller
                     ->whereIn('id', $request->label_ids)
                     ->pluck('id')
                     ->toArray();
+                
+                // Debug: mostrar qué etiquetas son válidas
+                if (count($request->label_ids) > 0 && count($validLabelIds) == 0) {
+                    // Log para debug
+                    Log::info('Card update - No valid labels found', [
+                        'card_id' => $card->id,
+                        'board_id' => $board->id,
+                        'requested_label_ids' => $request->label_ids,
+                        'board_labels' => $board->labels->pluck('id')->toArray()
+                    ]);
+                }
                 
                 $card->labels()->sync($validLabelIds);
             }
