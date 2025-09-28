@@ -474,7 +474,7 @@
                             "host": ["{{base_url}}"],
                             "path": ["api", "v1", "boards", "{{board_id}}", "lists"]
                         },
-                        "description": "Crea una nueva lista en un tablero con manejo automático de posiciones"
+                        "description": "Crea una nueva lista en un tablero with manejo automático de posiciones"
                     },
                     "response": []
                 },
@@ -604,14 +604,14 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"title\": \"Mi primera tarea\",\n    \"description\": \"Descripción detallada de la tarea\",\n    \"position\": 0,\n    \"due_date\": \"2025-10-15 14:30:00\",\n    \"assigned_user_id\": 2,\n    \"progress_percentage\": 0,\n    \"label_ids\": [1, 2]\n}"
+                            "raw": "{\n    \"title\": \"Mi primera tarea\",\n    \"description\": \"Descripción detallada de la tarea\",\n    \"position\": 0,\n    \"due_date\": \"2025-10-15 14:30:00\",\n    \"assigned_user_id\": 2,\n    \"assigned_by\": 1,\n    \"progress_percentage\": 0,\n    \"label_ids\": [1, 2]\n}"
                         },
                         "url": {
                             "raw": "{{base_url}}/api/v1/lists/{{list_id}}/cards",
                             "host": ["{{base_url}}"],
                             "path": ["api", "v1", "lists", "{{list_id}}", "cards"]
                         },
-                        "description": "Crea una nueva tarjeta en una lista con asignación opcional de etiquetas"
+                        "description": "Crea una nueva tarjeta en una lista con asignación opcional de etiquetas y usuario asignador"
                     },
                     "response": []
                 },
@@ -658,14 +658,14 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"title\": \"Tarea actualizada\",\n    \"description\": \"Nueva descripción\",\n    \"list_id\": 2,\n    \"position\": 1,\n    \"due_date\": \"2025-10-20 16:00:00\",\n    \"assigned_user_id\": 3,\n    \"progress_percentage\": 50\n}"
+                            "raw": "{\n    \"title\": \"Tarea actualizada\",\n    \"description\": \"Nueva descripción\",\n    \"list_id\": 2,\n    \"position\": 1,\n    \"due_date\": \"2025-10-20 16:00:00\",\n    \"assigned_user_id\": 3,\n    \"assigned_by\": 1,\n    \"progress_percentage\": 50\n}"
                         },
                         "url": {
                             "raw": "{{base_url}}/api/v1/cards/{{card_id}}",
                             "host": ["{{base_url}}"],
                             "path": ["api", "v1", "cards", "{{card_id}}"]
                         },
-                        "description": "Actualiza una tarjeta (incluyendo movimiento entre listas)"
+                        "description": "Actualiza una tarjeta (incluyendo movimiento entre listas y usuario asignador)"
                     },
                     "response": []
                 },

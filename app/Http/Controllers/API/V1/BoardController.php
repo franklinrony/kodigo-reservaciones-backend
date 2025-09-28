@@ -211,7 +211,14 @@ class BoardController extends Controller
      *                                 @OA\Property(property="id", type="integer", example=1),
      *                                 @OA\Property(property="title", type="string", example="Implementar login"),
      *                                 @OA\Property(property="description", type="string", example="Crear sistema de autenticación"),
-     *                                 @OA\Property(property="position", type="integer", example=1)
+     *                                 @OA\Property(property="position", type="integer", example=1),
+     *                                 @OA\Property(property="labels", type="array",
+     *                                     @OA\Items(
+     *                                         @OA\Property(property="id", type="integer", example=1),
+     *                                         @OA\Property(property="name", type="string", example="Urgente"),
+     *                                         @OA\Property(property="color", type="string", example="#FF0000")
+     *                                     )
+     *                                 )
      *                             )
      *                         )
      *                     )
@@ -270,6 +277,7 @@ class BoardController extends Controller
             'lists.cards' => function ($query) {
                 $query->orderBy('position');
             },
+            'lists.cards.labels',
             'collaborators:id,name,email',
             'labels'
         ]);

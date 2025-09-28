@@ -787,5 +787,22 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 ---
 
-**[📊 Ver Estructura de BD](./DATABASE_SCHEMA.md)** | **[📚 Documentación API](./API_DOCUMENTATION.md)** | **[⚙️ Capacidades API](./API_CAPABILITIES.md)**
+## Database Schema
+
+### Cards Table
+- `user_id`: The user who created the card.
+- `assigned_user_id`: The user assigned to execute the card.
+- `assigned_by`: The user who assigned the card (new field). This tracks who delegated the task, which may differ from the creator in collaborative boards.
+
+## API Endpoints
+
+### Create Card
+- **Method**: POST `/api/cards`
+- **Body**: Include `assigned_by` (optional, integer, user ID who assigned the task).
+- **Response**: Card object with `assigned_by` field.
+
+### Update Card
+- **Method**: PUT `/api/cards/{id}`
+- **Body**: Include `assigned_by` (optional, integer, user ID who assigned the task).
+- **Response**: Updated card object with `assigned_by` field.
 

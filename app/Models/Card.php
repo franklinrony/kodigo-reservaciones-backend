@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -9,12 +10,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Card extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'title',
         'description',
         'board_list_id',
         'user_id',
         'assigned_user_id',
+        'assigned_by',
         'position',
         'due_date',
         'progress_percentage',
@@ -78,6 +82,14 @@ class Card extends Model
         return $this->belongsTo(User::class, 'assigned_user_id');
     }
     
+    /**
+     * Relationship: User who assigned the card
+     */
+    public function assignedBy()
+    {
+        return $this->belongsTo(User::class, 'assigned_by');
+    }
+
     /**
      * Obtener los comentarios de esta tarjeta.
      */

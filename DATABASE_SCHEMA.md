@@ -120,6 +120,7 @@ La base de datos del sistema Kanban está diseñada siguiendo las mejores práct
 | `board_list_id` | BIGINT UNSIGNED | ID de la lista contenedora | FOREIGN KEY → board_lists.id, CASCADE |
 | `user_id` | BIGINT UNSIGNED | ID del creador | FOREIGN KEY → users.id, CASCADE |
 | `assigned_user_id` | BIGINT UNSIGNED | ID del usuario asignado | FOREIGN KEY → users.id, SET NULL |
+| `assigned_by` | BIGINT UNSIGNED | ID del usuario que asignó la tarea | FOREIGN KEY → users.id, SET NULL |
 | `position` | INT | Posición dentro de la lista | DEFAULT 0 |
 | `due_date` | DATETIME | Fecha límite de la tarea | NULLABLE |
 | `progress_percentage` | INT | Porcentaje de avance de la tarea (0-100) | DEFAULT 0 |
@@ -132,6 +133,7 @@ La base de datos del sistema Kanban está diseñada siguiendo las mejores práct
 - Muchos a uno con `board_lists`
 - Muchos a uno con `users` (creador)
 - Muchos a uno con `users` (asignado, a través de `assigned_user_id`)
+- Muchos a uno con `users` (asignador, a través de `assigned_by`)
 - Uno a muchos con `comments`
 - Muchos a muchos con `labels` (a través de `card_label`)
 

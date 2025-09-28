@@ -485,13 +485,13 @@ class CommentController extends Controller
      */
     private function findAccessibleComment($commentId, $user)
     {
-        $comment = Comment::find($commentId);
+        $comment = Comment::with('card.boardList.board')->find($commentId);
         
         if (!$comment) {
             return null;
         }
         
-        $board = $comment->card->list->board;
+        $board = $comment->card->boardList->board;
         
         // Verificar si es el propietario del tablero
         if ($board->user_id == $user->id) {
@@ -515,7 +515,7 @@ class CommentController extends Controller
      */
     private function findOwnedComment($commentId, $user)
     {
-        $comment = Comment::find($commentId);
+        $comment = Comment::with('card.boardList.board')->find($commentId);
         
         if (!$comment) {
             return null;
@@ -526,7 +526,7 @@ class CommentController extends Controller
             return null;
         }
         
-        $board = $comment->card->list->board;
+        $board = $comment->card->boardList->board;
         
         // Verificar si es el propietario del tablero
         if ($board->user_id == $user->id) {

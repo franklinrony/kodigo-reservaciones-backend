@@ -206,6 +206,7 @@ class CardController extends Controller
             'position' => 'nullable|integer|min:0',
             'due_date' => 'nullable|date',
             'assigned_user_id' => 'nullable|exists:users,id',
+            'assigned_by' => 'nullable|exists:users,id',
             'progress_percentage' => 'nullable|integer|min:0|max:100',
             'label_ids' => 'nullable|array',
             'label_ids.*' => 'exists:labels,id'
@@ -218,6 +219,16 @@ class CardController extends Controller
                               $board->collaborators()->where('users.id', $request->assigned_user_id)->exists();
             if (!$isCollaborator) {
                 return response()->json(['message' => 'El usuario asignado no tiene acceso al tablero'], 422);
+            }
+        }
+        
+        // Verificar que el assigned_by sea colaborador del tablero
+        if ($request->assigned_by) {
+            $board = $boardList->board;
+            $isAssigner = $board->user_id == $request->assigned_by ||
+                          $board->collaborators()->where('users.id', $request->assigned_by)->exists();
+            if (!$isAssigner) {
+                return response()->json(['message' => 'El usuario asignador no tiene acceso al tablero'], 422);
             }
         }
         
@@ -238,6 +249,7 @@ class CardController extends Controller
             'position' => $position,
             'due_date' => $request->due_date,
             'assigned_user_id' => $request->assigned_user_id,
+            'assigned_by' => $request->assigned_by,
             'progress_percentage' => $request->progress_percentage ?? 0,
             'priority' => $request->priority ?? 'medium',
             'user_id' => $user->id
@@ -295,7 +307,7 @@ class CardController extends Controller
      *                 @OA\Property(property="due_date", type="string", format="date", example="2025-12-31"),
      *                 @OA\Property(property="board_list_id", type="integer", example=1),
      *                 @OA\Property(property="user_id", type="integer", example=1),
-     *                 @OA\Property(property="list", type="object",
+     *                 @OA\Property(property="board_list", type="object",
      *                     @OA\Property(property="id", type="integer", example=1),
      *                     @OA\Property(property="name", type="string", example="Por hacer"),
      *                     @OA\Property(property="position", type="integer", example=1)
@@ -353,7 +365,7 @@ class CardController extends Controller
         
         // Cargar relaciones
         $card->load([
-            'list', 
+            'boardList', 
             'labels', 
             'comments' => function ($query) {
                 $query->orderBy('created_at', 'desc');
@@ -467,6 +479,7 @@ class CardController extends Controller
             'position' => 'nullable|integer|min:0',
             'due_date' => 'nullable|date',
             'assigned_user_id' => 'nullable|exists:users,id',
+            'assigned_by' => 'nullable|exists:users,id',
             'progress_percentage' => 'nullable|integer|min:0|max:100',
             'list_id' => 'nullable|exists:board_lists,id',
             'label_ids' => 'nullable|array',
@@ -480,6 +493,16 @@ class CardController extends Controller
                               $board->collaborators()->where('users.id', $request->assigned_user_id)->exists();
             if (!$isCollaborator) {
                 return response()->json(['message' => 'El usuario asignado no tiene acceso al tablero'], 422);
+            }
+        }
+        
+        // Verificar que el assigned_by sea colaborador del tablero
+        if ($request->assigned_by) {
+            $board = $card->boardList->board;
+            $isAssigner = $board->user_id == $request->assigned_by ||
+                          $board->collaborators()->where('users.id', $request->assigned_by)->exists();
+            if (!$isAssigner) {
+                return response()->json(['message' => 'El usuario asignador no tiene acceso al tablero'], 422);
             }
         }
         
@@ -564,6 +587,10 @@ class CardController extends Controller
         
         if ($request->has('assigned_user_id')) {
             $card->assigned_user_id = $request->assigned_user_id;
+        }
+        
+        if ($request->has('assigned_by')) {
+            $card->assigned_by = $request->assigned_by;
         }
         
         if ($request->has('progress_percentage')) {

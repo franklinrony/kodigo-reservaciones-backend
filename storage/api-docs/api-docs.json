@@ -1944,6 +1944,26 @@
                                                                         "position": {
                                                                             "type": "integer",
                                                                             "example": 1
+                                                                        },
+                                                                        "labels": {
+                                                                            "type": "array",
+                                                                            "items": {
+                                                                                "properties": {
+                                                                                    "id": {
+                                                                                        "type": "integer",
+                                                                                        "example": 1
+                                                                                    },
+                                                                                    "name": {
+                                                                                        "type": "string",
+                                                                                        "example": "Urgente"
+                                                                                    },
+                                                                                    "color": {
+                                                                                        "type": "string",
+                                                                                        "example": "#FF0000"
+                                                                                    }
+                                                                                },
+                                                                                "type": "object"
+                                                                            }
                                                                         }
                                                                     },
                                                                     "type": "object"
@@ -3043,7 +3063,7 @@
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "list": {
+                                                "board_list": {
                                                     "properties": {
                                                         "id": {
                                                             "type": "integer",
