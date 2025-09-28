@@ -9,7 +9,6 @@ use App\Models\Board;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -307,21 +306,10 @@ class AuthController extends Controller
         // Obtener el TTL (tiempo de vida) del token desde la configuración
         $ttl = config('jwt.ttl', 60);
 
-        // Debug: Log the TTL values
-        Log::info('JWT TTL Debug', [
-            'ttl_from_config' => $ttl,
-            'env_JWT_TTL' => env('JWT_TTL'),
-            'expires_in_calculated' => $ttl * 60,
-            'ttl_in_minutes' => $ttl,
-            'ttl_in_hours' => $ttl / 60
-        ]);
-
         return response()->json([
             'token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => $ttl * 60,
-            'debug_ttl_minutes' => $ttl, // Debug info
-            'debug_expires_hours' => $ttl / 60 // Debug info
+            'expires_in' => $ttl * 60
         ]);
     }
 }
