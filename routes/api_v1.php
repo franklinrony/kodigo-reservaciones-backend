@@ -23,6 +23,7 @@ Route::middleware('auth:api')->group(function () {
     
     // Rutas para usuarios
     Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index']);
         Route::get('/{id}', [UserController::class, 'show']);
     });
     
@@ -33,9 +34,9 @@ Route::middleware('auth:api')->group(function () {
         });
         
         // Rutas para gestión de usuarios (solo administradores)
-        Route::prefix('users')->group(function () {
-            Route::get('/', [UserController::class, 'index']);
-        });
+        // Route::prefix('users')->group(function () {
+        //     Route::get('/', [UserController::class, 'index']);
+        // });
     });
     
     // Rutas para el sistema Kanban
