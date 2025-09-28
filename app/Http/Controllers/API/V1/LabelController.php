@@ -467,4 +467,55 @@ class LabelController extends Controller
         
         return $isCollaborator ? $label : null;
     }
+
+    /**
+     * Obtener todas las etiquetas del sistema.
+     *
+     * @OA\Get(
+     *     path="/api/v1/labels",
+     *     summary="Obtener todas las etiquetas del sistema",
+     *     description="Obtiene una lista completa de todas las etiquetas disponibles en el sistema",
+     *     operationId="getAllLabels",
+     *     tags={"Etiquetas"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Etiquetas obtenidas exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Etiquetas recuperadas con éxito"),
+     *             @OA\Property(property="labels", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="Urgente"),
+     *                     @OA\Property(property="color", type="string", example="#FF0000"),
+     *                     @OA\Property(property="board_id", type="integer", nullable=true, example=1),
+     *                     @OA\Property(property="created_at", type="string", format="date-time"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAllLabels()
+    {
+        $user = Auth::user();
+
+        // Obtener todas las etiquetas del sistema
+        $labels = Label::with('board')->get();
+
+        return response()->json([
+            'message' => 'Etiquetas recuperadas con éxito',
+            'labels' => $labels
+        ]);
+    }
 }

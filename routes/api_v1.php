@@ -86,6 +86,7 @@ Route::middleware('auth:api')->group(function () {
     
     // Rutas para etiquetas
     Route::prefix('labels')->group(function () {
+        Route::get('/', [LabelController::class, 'getAllLabels']);
         Route::get('/{id}', [LabelController::class, 'show']);
         Route::put('/{id}', [LabelController::class, 'update']);
         Route::delete('/{id}', [LabelController::class, 'destroy']);
