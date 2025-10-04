@@ -34,7 +34,10 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         
         // Apply middleware to API routes
-        $middleware->prependToGroup('api', \App\Http\Middleware\ForceJsonResponse::class);
+        $middleware->prependToGroup('api', [
+            \Illuminate\Http\Middleware\HandleCors::class,
+            \App\Http\Middleware\ForceJsonResponse::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->reportable(function (\Throwable $e) {
