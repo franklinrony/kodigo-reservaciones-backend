@@ -7,6 +7,10 @@
 .phpunit.result.cache
 /.fleet
 /.idea
+.roo/
+.taskmaster/
+.vscode/
+.cursor/
 /.nova
 /.phpunit.cache
 /.vscode

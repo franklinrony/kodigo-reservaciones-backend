@@ -634,8 +634,8 @@ php artisan optimize:clear
 #### 1. 📦 Preparar el Código
 ```bash
 # Clonar en servidor de producción
-git clone https://github.com/tu-usuario/kodigo-kanban-backend.git /var/www/kanban-api
-cd /var/www/kanban-api
+git clone https://github.com/franklinrony/kodigo-reservaciones-backend 
+cd kanban-api
 
 # Instalar dependencias
 composer install --optimize-autoloader --no-dev
